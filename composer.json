@@ -1,10 +1,12 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "kmatulewicz/sylius-baselinker",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "Baselinker API plugin for Sylius.",
     "keywords": [
         "sylius",
-        "sylius-plugin"
+        "sylius-plugin",
+        "baselinker",
+        "baselinker-api"
     ],
     "license": "MIT",
     "require": {
@@ -58,8 +60,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Kmatulewicz\\SyliusBaselinkerPlugin\\": "src/",
+            "Tests\\Kmatulewicz\\SyliusBaselinkerPlugin\\": "tests/"
         }
     },
     "autoload-dev": {

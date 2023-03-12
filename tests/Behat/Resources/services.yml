@@ -1,0 +1,4 @@
+services:
+
+  Tests\Kmatulewicz\SyliusBaselinkerPlugin\Behat\Context\TestContext:
+    autoconfigure: true

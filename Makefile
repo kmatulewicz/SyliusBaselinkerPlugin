@@ -25,12 +25,25 @@ frontend:
 	(cd tests/Application && GULP_ENV=prod yarn build)
 
 behat:
-	APP_ENV=test vendor/bin/behat --colors --strict --no-interaction -vvv -f progress
+	APP_ENV=test vendor/bin/behat --colors --strict --no-interaction -vvv 
+
+ecs:
+	vendor/bin/ecs check src
 
 init: install backend frontend
 
-ci: init phpstan psalm phpunit phpspec behat
+ci: init ecs phpstan psalm phpunit phpspec behat
 
 integration: init phpunit behat
 
-static: install phpspec phpstan psalm
+static: install esc phpspec phpstan psalm
+
+test: reload ecs phpstan psalm phpunit phpspec behat
+
+reload: 
+	composer dump-autoload
+
+symfony:
+	tests/Application/bin/console $(filter-out $@,$(MAKECMDGOALS))
+%:      
+	@:    

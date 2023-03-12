@@ -1,0 +1,4 @@
+services:
+
+    Kmatulewicz\SyliusBaselinkerPlugin\Command\TestCommand:
+        autoconfigure: true
