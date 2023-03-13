@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Kmatulewicz\SyliusBaselinkerPlugin;
+namespace SyliusBaselinkerPlugin;
 
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class KmatulewiczSyliusBaselinkerPlugin extends Bundle
+final class SyliusBaselinkerPlugin extends Bundle
 {
     use SyliusPluginTrait;
 

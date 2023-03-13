@@ -1,4 +1,16 @@
 services:
 
-    Kmatulewicz\SyliusBaselinkerPlugin\Command\TestCommand:
-        autoconfigure: true
+    sylius.baselinker.plugin:
+        class: SyliusBaselinkerPlugin\Command\TestCommand
+        arguments:
+        - '@baselinker.api.service'
+        tags: ['console.command'] 
+        
+
+    baselinker.api.service:
+        class: SyliusBaselinkerPlugin\Services\BaselinkerApiService
+        arguments:
+        - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+        - '%sylius.baselinker_token%'
+        - '%sylius.baselinker_url%'
+        - '%sylius.baselinker_method%'

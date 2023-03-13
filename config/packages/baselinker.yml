@@ -1,0 +1,4 @@
+sylius_baselinker:
+    token: "%env(string:BL_TOKEN)%"
+    url: https://api.baselinker.com/connector.php
+    method: POST

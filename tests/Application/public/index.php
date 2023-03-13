@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Tests\Kmatulewicz\SyliusBaselinkerPlugin\Application\Kernel;
+use Tests\SyliusBaselinkerPlugin\Application\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

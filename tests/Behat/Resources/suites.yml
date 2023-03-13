@@ -2,4 +2,4 @@ default:
     suites:
         default:
             contexts:
-                - Tests\Kmatulewicz\SyliusBaselinkerPlugin\Behat\Context\TestContext
+                - Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext

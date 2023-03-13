@@ -1,4 +1,4 @@
 suites:
     main:
-        namespace: Kmatulewicz\SyliusBaselinkerPlugin
-        psr4_prefix: Kmatulewicz\SyliusBaselinkerPlugin
+        namespace: SyliusBaselinkerPlugin
+        psr4_prefix: SyliusBaselinkerPlugin

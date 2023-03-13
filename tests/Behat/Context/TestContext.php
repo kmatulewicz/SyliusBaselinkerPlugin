@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\KMatulewicz\SyliusBaselinkerPlugin\Behat\Context;
+namespace Tests\SyliusBaselinkerPlugin\Behat\Context;
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;

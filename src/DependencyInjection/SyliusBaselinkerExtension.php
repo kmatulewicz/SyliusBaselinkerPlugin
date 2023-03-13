@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kmatulewicz\SyliusBaselinkerPlugin\DependencyInjection;
+namespace SyliusBaselinkerPlugin\DependencyInjection;
 
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class KmatulewiczSyliusBaselinkerExtension extends Extension
+final class SyliusBaselinkerExtension extends Extension
 {
     /**
      * @psalm-suppress UnusedVariable
@@ -21,6 +21,14 @@ final class KmatulewiczSyliusBaselinkerExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.yml');
+
+        $token = (string) $config['token'];
+        $url = (string) $config['url'];
+        $method = (string) $config['method'];
+
+        $container->setParameter('sylius.baselinker_token', $token);
+        $container->setParameter('sylius.baselinker_url', $url);
+        $container->setParameter('sylius.baselinker_method', $method);
     }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
