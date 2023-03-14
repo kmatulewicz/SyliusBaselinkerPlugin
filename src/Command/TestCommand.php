@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Command;
 
-use SyliusBaselinkerPlugin\Services\BaselinkerApiService;
+use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TestCommand extends Command
 {
-    private BaselinkerApiService $baselinker;
+    private BaselinkerOrdersApiService $baselinker;
 
-    public function __construct(BaselinkerApiService $baselinker)
+    public function __construct(BaselinkerOrdersApiService $baselinker)
     {
         $this->baselinker = $baselinker;
 

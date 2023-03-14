@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Services;
 
+use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class BaselinkerApiService
+class BaselinkerApiRequestService
 {
     private HttpClientInterface $client;
 
@@ -25,39 +26,12 @@ class BaselinkerApiService
         $this->method = $method;
     }
 
-    public function getLastLogId(): ?int
+    public function do(string $method, array $parameters = []): array
     {
-        $parameters = [
-            'logs_types' => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
-        ];
+        $response = $this->request($method, $parameters);
+        $content = $this->getContent($response);
 
-        $response = $this->request('getJournalList', $parameters);
-
-        if ($response->getStatusCode() === 200) {
-            $content = (array) json_decode($response->getContent(), true);
-            if (array_key_exists('status', $content) && $content['status'] === 'SUCCESS') {
-                if (array_key_exists('logs', $content)) {
-                    $logs = (array) $content['logs'];
-                    $last = (array) end($logs);
-                    if (array_key_exists('log_id', $last)) {
-                        $id = (int) $last['log_id'];
-
-                        return $id;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function prepareHeaders(): array
-    {
-        $headers = [
-            'X-BLToken' => $this->token,
-        ];
-
-        return $headers;
+        return $content;
     }
 
     private function request(string $method, array $parameters = []): ResponseInterface
@@ -83,5 +57,34 @@ class BaselinkerApiService
         );
 
         return $response;
+    }
+
+    private function getContent(ResponseInterface $response): array
+    {
+        $content = $response->toArray();
+        if (!array_key_exists('status', $content)) {
+            throw new Exception('Wrong response');
+        }
+        if ($content['status'] != 'SUCCESS') {
+            $message = '';
+            if (array_key_exists('error_message', $content)) {
+                $message = 'Wrong response status: ' . $content['status'] . ' error message: ' . $content['error_message'];
+            } else {
+                $message = 'Wrong response status: ' . $content['status'] . ' no error message';
+            }
+
+            throw new Exception($message);
+        }
+
+        return $content;
+    }
+
+    private function prepareHeaders(): array
+    {
+        $headers = [
+            'X-BLToken' => $this->token,
+        ];
+
+        return $headers;
     }
 }

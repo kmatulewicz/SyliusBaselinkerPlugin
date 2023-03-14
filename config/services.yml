@@ -3,14 +3,19 @@ services:
     sylius.baselinker.plugin:
         class: SyliusBaselinkerPlugin\Command\TestCommand
         arguments:
-        - '@baselinker.api.service'
+        - '@baselinker.orders.api.service'
         tags: ['console.command'] 
         
 
-    baselinker.api.service:
-        class: SyliusBaselinkerPlugin\Services\BaselinkerApiService
+    baselinker.api.request.service:
+        class: SyliusBaselinkerPlugin\Services\BaselinkerApiRequestService
         arguments:
         - '@Symfony\Contracts\HttpClient\HttpClientInterface'
         - '%sylius.baselinker_token%'
         - '%sylius.baselinker_url%'
         - '%sylius.baselinker_method%'
+
+    baselinker.orders.api.service:
+        class: SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService
+        arguments:
+        - '@baselinker.api.request.service'
