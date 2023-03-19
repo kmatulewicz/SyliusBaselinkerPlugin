@@ -17,10 +17,10 @@ Feature: getLastLogId
     Scenario: Send incorrect query
         Given Baselinker API is "up", token is "incorrect" and number orders in Baselinker is "0"
         When I send query
-        Then exception should occure
+        Then exception should be thrown
 
     Scenario: Send query when Baselinker is offline
         Given Baselinker API is "down", token is "correct" and number orders in Baselinker is "0"
         When I send query
-        Then exception should occure
+        Then exception should be thrown
 

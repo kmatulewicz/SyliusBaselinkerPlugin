@@ -34,8 +34,8 @@ class BaselinkerHandlerSubscriber implements SubscribingHandlerInterface
         return ($string === 'paid') ? true : false;
     }
 
-    public function getCashInFloat(JsonSerializationVisitor $visitor, int $ammount, array $type): float
+    public function getCashInFloat(JsonSerializationVisitor $visitor, int $amount, array $type): float
     {
-        return $ammount / 100;
+        return $amount / 100;
     }
 }

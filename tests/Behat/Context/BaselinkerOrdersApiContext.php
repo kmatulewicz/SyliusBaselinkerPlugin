@@ -94,9 +94,9 @@ class BaselinkerOrdersApiContext extends KernelTestCase implements Context
     }
 
     /**
-     * @Then exception should occure
+     * @Then exception should be thrown
      */
-    public function exceptionShouldOccure(): void
+    public function exceptionShouldBeThrown(): void
     {
         if (!($this->result instanceof Exception)) {
             throw new Exception('No exception');
