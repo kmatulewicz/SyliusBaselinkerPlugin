@@ -1,5 +1,12 @@
 default:
     suites:
+        orders_api:
+            contexts:
+            - Tests\SyliusBaselinkerPlugin\Behat\Context\BaselinkerOrdersApiContext
+            filters:
+                tags: orderApi
         default:
             contexts:
-                - Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
+            - Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
+            filters:
+                tags: test

@@ -1,0 +1,6 @@
+Sylius\Component\Payment\Model\PaymentMethod:
+  virtual_properties:
+    #payment_method
+    getName:
+      serialized_name: payment_method
+      groups: [bl]

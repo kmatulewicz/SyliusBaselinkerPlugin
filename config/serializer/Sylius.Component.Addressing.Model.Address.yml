@@ -1,0 +1,33 @@
+Sylius\Component\Addressing\Model\Address:
+  virtual_properties:
+    
+    #fullname
+    getFullName:
+      groups: [bl]
+
+  properties:
+
+    #company
+    company:
+      groups: [bl]
+    
+    #address
+    street:
+      groups: [bl]
+
+    #postcode
+    postcode:
+      groups: [bl]
+
+    #city
+    city:
+      groups: [bl]
+
+    #state
+    provinceName:
+      serialized_name: state
+      groups: [bl]
+
+    #country_code
+    countryCode:
+      groups: [bl]

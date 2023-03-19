@@ -1,0 +1,6 @@
+Sylius\Component\Shipping\Model\ShippingMethod:
+  virtual_properties:
+    #delivery_method
+    getName:
+      serialized_name: delivery_method
+      groups: [bl]

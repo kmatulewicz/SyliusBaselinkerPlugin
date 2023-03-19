@@ -1,0 +1,50 @@
+Sylius\Component\Core\Model\Order:
+
+  virtual_properties:
+
+    #payment_method
+    getLastPayment:
+      inline: true
+      type: Sylius\Component\Core\Model\Payment
+      groups: [bl]
+
+    #delivery_price
+    getShippingTotal:
+      serialized_name: delivery_price
+      type: cash
+      groups: [bl]
+
+  properties:
+    #order_status_id
+    #custom_source_id
+
+    #currency
+    currencyCode:
+      serialized_name: currency
+      groups: [bl]
+
+    #payment_method_cod
+
+
+    #paid
+    paymentState:
+      type: paymentState
+      groups: [bl]
+
+
+    #admin_comments
+
+
+    #email
+    #phone
+    customer:
+      inline: true
+      groups: [bl]
+
+    #user_login
+    
+    #want_invoice
+    #extra_field_1
+    #extra_field_2
+    #custom_extra_fields
+    #products

@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\SyliusBaselinkerPlugin\Behat\Context;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\HttpKernel\HttpKernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Webmozart\Assert\Assert;
 
 class TestContext extends KernelTestCase implements Context
@@ -34,7 +30,7 @@ class TestContext extends KernelTestCase implements Context
     /**
      * @Given I am the system
      */
-    public function iAmTheSystem() : void
+    public function iAmTheSystem(): void
     {
         Assert::same('cli', php_sapi_name());
     }
@@ -42,7 +38,7 @@ class TestContext extends KernelTestCase implements Context
     /**
      * @When I run a test command
      */
-    public function iRunATestCommand() : void
+    public function iRunATestCommand(): void
     {
         $command = $this->app->find('test:test');
         $tester = new CommandTester($command);
@@ -55,8 +51,8 @@ class TestContext extends KernelTestCase implements Context
     /**
      * @Then I should see :arg1
      */
-    public function iShouldSee(string $arg1) : void
+    public function iShouldSee(string $arg1): void
     {
-        self::assertStringContainsString($arg1,$this->output);
+        self::assertStringContainsString($arg1, $this->output);
     }
 }

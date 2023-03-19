@@ -1,0 +1,17 @@
+Sylius\Component\Order\Model\Order:
+  properties:
+    #date_add
+    checkoutCompletedAt:
+      type: DateTimeInterface<'U'>
+      serialized_name: date_add
+      groups: [bl]
+
+    #user_comments
+    notes:
+      serialized_name: user_comments
+      groups: [bl]
+
+    #products
+    items:
+      serialized_name: products
+      groups: [bl]

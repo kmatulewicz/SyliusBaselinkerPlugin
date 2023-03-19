@@ -1,0 +1,10 @@
+Sylius\Component\Customer\Model\Customer:
+  properties:
+    #email
+    email:
+      groups: [bl]
+    
+    #phone
+    phoneNumber:
+      serialized_name: phone
+      groups: [bl]

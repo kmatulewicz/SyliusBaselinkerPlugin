@@ -1,0 +1,11 @@
+Sylius\Component\Order\Model\OrderItem:
+  properties:
+    #price_brutto
+    unitPrice:
+      serialized_name: price_brutto
+      type: cash
+      groups: [bl]
+    
+    #quantity
+    quantity:
+      groups: [bl]

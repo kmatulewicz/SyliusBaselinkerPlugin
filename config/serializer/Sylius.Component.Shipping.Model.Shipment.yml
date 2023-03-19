@@ -1,0 +1,7 @@
+Sylius\Component\Shipping\Model\Shipment:
+  properties:
+    #delivery_method
+    method:
+      inline: true
+      type: Sylius\Component\Shipping\Model\ShippingMethod
+      groups: [bl]
