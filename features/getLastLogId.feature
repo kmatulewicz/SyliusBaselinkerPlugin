@@ -23,4 +23,3 @@ Feature: getLastLogId
         Given Baselinker API is "down", token is "correct" and number orders in Baselinker is "0"
         When I send query
         Then exception should be thrown
-

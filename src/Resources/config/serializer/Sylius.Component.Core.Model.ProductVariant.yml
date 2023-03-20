@@ -3,5 +3,3 @@ Sylius\Component\Core\Model\ProductVariant:
     #weight
     weight:
       groups: [bl]
-
-    
