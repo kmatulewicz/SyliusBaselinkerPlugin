@@ -1,0 +1,7 @@
+sylius_resource:
+    resources:
+        baselinker.settings:
+            driver: doctrine/orm
+            classes:
+                model: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+                repository: SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository
