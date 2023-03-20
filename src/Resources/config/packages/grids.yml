@@ -1,0 +1,21 @@
+sylius_grid:
+    grids:
+        baselinker_admin_settings:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+            fields:
+                name:
+                    type: string
+                    label: sylius.ui.name
+                value:
+                    type: string
+                    label: sylius.ui.value
+            actions:
+                main:
+                    # update:
+                    #     type: update
+                item:
+                    update:
+                        type: update
