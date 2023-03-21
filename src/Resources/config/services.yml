@@ -5,7 +5,6 @@ services:
         arguments:
         tags: ['console.command']
         
-
     baselinker.api.request.service:
         class: SyliusBaselinkerPlugin\Services\BaselinkerApiRequestService
         arguments:
@@ -38,3 +37,9 @@ services:
         class: SyliusBaselinkerPlugin\Subscribers\BaselinkerAdminMenuSubscriber
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuEntries }
+
+    baselinker.settings.form.type:
+        class: SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType
+        tags:
+            - { name: form.type }
+        arguments: ['SyliusBaselinkerPlugin\Entity\BaselinkerSettings']

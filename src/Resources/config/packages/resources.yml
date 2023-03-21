@@ -4,4 +4,5 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+                form: SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType
                 repository: SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository
