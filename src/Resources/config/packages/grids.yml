@@ -13,9 +13,6 @@ sylius_grid:
                     type: string
                     label: sylius.ui.value
             actions:
-                main:
-                    # update:
-                    #     type: update
                 item:
                     update:
                         type: update
