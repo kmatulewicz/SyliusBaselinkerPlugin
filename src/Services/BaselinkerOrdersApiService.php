@@ -50,4 +50,17 @@ class BaselinkerOrdersApiService
 
         return $response;
     }
+
+    public function getOrderSources(): array
+    {
+        $content = $this->apiRequest->do(__FUNCTION__);
+
+        if (!array_key_exists('sources', $content)) {
+            throw new Exception('No sources in getOrderSources');
+        }
+
+        $response = (array) $content['sources'];
+
+        return $response;
+    }
 }
