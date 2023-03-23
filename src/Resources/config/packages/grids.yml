@@ -16,3 +16,25 @@ sylius_grid:
                 item:
                     update:
                         type: update
+
+        baselinker_admin_statuses:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations
+            fields:
+                shopStatus:
+                    type: string
+                    label: baselinker.ui.shopStatus
+                baselinkerStatus:
+                    type: string
+                    label: baselinker.ui.baselinkerStatus
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

@@ -6,3 +6,8 @@ sylius_resource:
                 model: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
                 form: SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType
                 repository: SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository
+
+        baselinker.statuses:
+            driver: doctrine/orm
+            classes:
+                model: SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations

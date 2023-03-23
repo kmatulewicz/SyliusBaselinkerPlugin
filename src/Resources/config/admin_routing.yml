@@ -10,3 +10,16 @@ baselinker_admin_settings_index:
                 icon: 'file image outline'
     type: sylius.resource
     prefix: /admin
+
+baselinker_admin_statuses_index:
+    resource: |
+        alias: baselinker.statuses
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        redirect: update
+        grid: baselinker_admin_statuses
+        vars:
+            index:
+                icon: 'file image outline'
+    type: sylius.resource
+    prefix: /admin

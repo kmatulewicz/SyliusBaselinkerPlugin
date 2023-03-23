@@ -12,8 +12,9 @@ final class BaselinkerAdminMenuSubscriber
     {
         $menu = $event->getMenu();
 
-        $submenu = $menu->addChild('new')->setLabel('Baselinker');
+        $submenu = $menu->addChild('baselinker')->setLabel('Baselinker');
 
-        $submenu->addChild('sub-item', ['route' => 'baselinker_admin_settings_index'])->setLabel('Settings');
+        $submenu->addChild('settings', ['route' => 'baselinker_admin_settings_index'])->setLabel('Settings');
+        $submenu->addChild('statuses', ['route' => 'baselinker_admin_statuses_index'])->setLabel('Statuses');
     }
 }
