@@ -5,6 +5,8 @@ sylius_grid:
                 name: doctrine/orm
                 options:
                     class: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+                    repository:
+                        method: findAllSettings
             fields:
                 name:
                     type: string
