@@ -11,3 +11,4 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations
+                form: SyliusBaselinkerPlugin\Form\Type\BaselinkerStatusesAssociationsType
