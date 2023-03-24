@@ -63,4 +63,17 @@ class BaselinkerOrdersApiService
 
         return $response;
     }
+
+    public function getOrderStatusList(): array
+    {
+        $content = $this->apiRequest->do(__FUNCTION__);
+
+        if (!array_key_exists('statuses', $content)) {
+            throw new Exception('No statuses in getOrderStatusList');
+        }
+
+        $response = (array) $content['statuses'];
+
+        return $response;
+    }
 }
