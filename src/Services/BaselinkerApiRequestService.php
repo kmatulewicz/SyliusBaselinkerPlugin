@@ -65,7 +65,7 @@ class BaselinkerApiRequestService
         if (!array_key_exists('status', $content)) {
             throw new Exception('Wrong response');
         }
-        if ($content['status'] != 'SUCCESS') {
+        if ('SUCCESS' != $content['status']) {
             $message = '';
             if (array_key_exists('error_message', $content)) {
                 $message = 'Wrong response status: ' . (string) $content['status'] . ' error message: ' . (string) $content['error_message'];

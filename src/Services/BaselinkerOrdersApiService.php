@@ -33,10 +33,10 @@ class BaselinkerOrdersApiService
     public function getJournalList(int $lastLogId = 0, array $logTypes = ALL_LOGS_TYPES, int $orderId = 0): array
     {
         $parameters = [];
-        if ($lastLogId != 0) {
+        if (0 != $lastLogId) {
             $parameters['last_log_id'] = $lastLogId;
         }
-        if ($orderId != 0) {
+        if (0 != $orderId) {
             $parameters['order_id'] = $orderId;
         }
         $parameters['logs_types'] = $logTypes;
