@@ -6,7 +6,7 @@ namespace SyliusBaselinkerPlugin\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use SyliusBaselinkerPlugin\Factory\BaselinkerSettingsFactory;
+use SyliusBaselinkerPlugin\Factory\BaselinkerFirstRunFactory;
 
 class BaselinkerSettingsRepository extends EntityRepository
 {
@@ -16,7 +16,7 @@ class BaselinkerSettingsRepository extends EntityRepository
         /** @var array<int, string> $result */
         $result = $query->getQuery()->execute();
         if (count($result) === 0) {
-            BaselinkerSettingsFactory::createSettingsOnFirstRun($this->_em);
+            BaselinkerFirstRunFactory::createOnFirstRun($this->_em);
         }
 
         return $query;
