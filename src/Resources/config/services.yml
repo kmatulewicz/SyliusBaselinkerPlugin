@@ -23,12 +23,13 @@ services:
         arguments:
         - '@baselinker.subscribers.handler_subscriber'
         - '@baselinker.subscribers.event_subscriber'
-        - '@SyliusBaselinkerPlugin/Resources/config/serializer'
+        - 'src/Resources/config/serializer'
 
     baselinker.subscribers.event_subscriber:
         class: SyliusBaselinkerPlugin\Subscribers\BaselinkerEventSubscriber
         arguments:
         - '@sylius.tax_rate_resolver'
+        - '@doctrine.orm.default_entity_manager'
 
     baselinker.subscribers.handler_subscriber:
         class: SyliusBaselinkerPlugin\Subscribers\BaselinkerHandlerSubscriber
