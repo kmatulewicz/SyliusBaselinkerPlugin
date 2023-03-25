@@ -28,6 +28,7 @@ Sylius\Component\Core\Model\Order:
 
     #paid
     paymentState:
+      serialized_name: paid
       type: paymentState
       groups: [bl]
 

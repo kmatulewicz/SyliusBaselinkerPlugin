@@ -66,13 +66,14 @@ class BaselinkerSerializer
 
     private function serialize(mixed $data): string
     {
-        return $this->serializer->serialize($data, 'json');
+        return $this->serializer->serialize($data, 'json', $this->getContext());
     }
 
     private function getContext(): SerializationContext
     {
         $context = new SerializationContext();
         $context->setGroups(['bl']);
+        $context->setSerializeNull(true);
 
         return $context;
     }

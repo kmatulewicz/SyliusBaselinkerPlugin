@@ -3,6 +3,7 @@ Sylius\Component\Addressing\Model\Address:
     
     #fullname
     getFullName:
+      serialized_name: fullname
       groups: [bl]
 
   properties:
@@ -13,6 +14,7 @@ Sylius\Component\Addressing\Model\Address:
     
     #address
     street:
+      serialized_name: address
       groups: [bl]
 
     #postcode
