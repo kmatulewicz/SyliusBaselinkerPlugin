@@ -6,20 +6,26 @@ namespace Tests\SyliusBaselinkerPlugin\Behat\Context;
 
 use Behat\Behat\Context\Context;
 use Exception;
+use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
 use SyliusBaselinkerPlugin\Services\BaselinkerApiRequestService;
 use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 use function PHPUnit\Framework\assertIsInt;
 use function PHPUnit\Framework\assertNull;
 
-class BaselinkerOrdersApiContext extends KernelTestCase implements Context
+class BaselinkerOrdersApiContext  implements Context
 {
     private BaselinkerApiRequestService $apiRequest;
     private BaselinkerOrdersApiService $orderApi;
     private mixed $result = "dummy";
+    private BaselinkerSerializer $serializer;
+
+    public function __construct(BaselinkerSerializer $serializer)
+    {
+        $this->serializer = $serializer;
+    }
 
     /**
      * @Given Baselinker API is :arg1, token is :arg2 and number orders in Baselinker is :arg3
@@ -62,7 +68,7 @@ class BaselinkerOrdersApiContext extends KernelTestCase implements Context
         $response = ($arg1 === 'up') ? new MockResponse($body) : null;
         $this->apiRequest = new BaselinkerApiRequestService(new MockHttpClient($response), $arg1, 'https://example.com', 'POST');
 
-        $this->orderApi = new BaselinkerOrdersApiService($this->apiRequest);
+        $this->orderApi = new BaselinkerOrdersApiService($this->apiRequest, $this->serializer);
     }
 
     /**

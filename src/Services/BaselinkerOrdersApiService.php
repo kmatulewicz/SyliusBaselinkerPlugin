@@ -7,14 +7,19 @@ namespace SyliusBaselinkerPlugin\Services;
 define('ALL_LOGS_TYPES', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
 
 use Exception;
+use Sylius\Component\Core\Model\Order;
+use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
 
 class BaselinkerOrdersApiService
 {
     private BaselinkerApiRequestService $apiRequest;
 
-    public function __construct(BaselinkerApiRequestService $apiRequest)
+    private BaselinkerSerializer $serializer;
+
+    public function __construct(BaselinkerApiRequestService $apiRequest, BaselinkerSerializer $serializer)
     {
         $this->apiRequest = $apiRequest;
+        $this->serializer = $serializer;
     }
 
     public function getLastLogId(): ?int
@@ -75,5 +80,16 @@ class BaselinkerOrdersApiService
         $response = (array) $content['statuses'];
 
         return $response;
+    }
+
+    public function addOrder(Order $order): int
+    {
+        $serializedOrder = $this->serializer->serializeOrder($order);
+        $response = $this->apiRequest->do(__FUNCTION__, $serializedOrder);
+        if (!array_key_exists('order_id', $response)) {
+            throw new Exception('No order_id in addOrder');
+        }
+
+        return (int) $response['order_id'];
     }
 }

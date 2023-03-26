@@ -1,7 +1,0 @@
-Sylius\Component\Payment\Model\Payment:
-  properties:
-    #payment_method
-    method:
-      inline: true
-      type: Sylius\Component\Payment\Model\PaymentMethod
-      groups: [bl]

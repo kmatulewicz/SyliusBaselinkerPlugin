@@ -1,7 +1,11 @@
+imports:
+  - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/services.yml" }
+
 services:
+  baselinker.test.test:
+    class: Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
 
-  Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext:
-    autoconfigure: true
-
-  Tests\SyliusBaselinkerPlugin\Behat\BaselinkerOrdersApiContext:
-    autoconfigure: true
+  baselinker.test.Orders.Api:
+    class: Tests\SyliusBaselinkerPlugin\Behat\Context\BaselinkerOrdersApiContext
+    arguments:
+      - '@baselinker.serializers.serializer'

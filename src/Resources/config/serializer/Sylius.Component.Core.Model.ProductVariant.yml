@@ -1,5 +1,0 @@
-Sylius\Component\Core\Model\ProductVariant:
-  properties:
-    #weight
-    weight:
-      groups: [bl]

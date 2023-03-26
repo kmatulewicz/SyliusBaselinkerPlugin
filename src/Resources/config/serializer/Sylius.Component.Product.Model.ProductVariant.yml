@@ -1,6 +1,0 @@
-Sylius\Component\Product\Model\ProductVariant:
-  properties:
-    #sku
-    code:
-      serialized_name: sku
-      groups: [bl]

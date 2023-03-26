@@ -4,90 +4,147 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Serializers;
 
-use JMS\Serializer\EventDispatcher\EventDispatcher;
-use JMS\Serializer\Handler\HandlerRegistry;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\Serializer;
-use JMS\Serializer\SerializerBuilder;
-use Sylius\Component\Core\Model\Order;
-use SyliusBaselinkerPlugin\Subscribers\BaselinkerEventSubscriber;
-use SyliusBaselinkerPlugin\Subscribers\BaselinkerHandlerSubscriber;
+use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\OrderItemInterface;
+use SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderItemDataProviderInterface;
 
 class BaselinkerSerializer
 {
-    private BaselinkerHandlerSubscriber $handlerSubscriber;
+    private BaselinkerOrderDataProviderInterface $orderDataProvider;
 
-    private BaselinkerEventSubscriber $eventSubscriber;
-
-    private Serializer $serializer;
+    private BaselinkerOrderItemDataProviderInterface $orderItemDataProvider;
 
     public function __construct(
-        BaselinkerHandlerSubscriber $handlerSubscriber,
-        BaselinkerEventSubscriber $eventSubscriber,
-        string $confPath,
+        BaselinkerOrderDataProviderInterface $orderDataProvider,
+        BaselinkerOrderItemDataProviderInterface $orderItemDataProvider,
     ) {
-        $this->handlerSubscriber = $handlerSubscriber;
-        $this->eventSubscriber = $eventSubscriber;
-
-        $this->serializer = SerializerBuilder::create()->configureHandlers(
-            function (HandlerRegistry $registry) {
-                $registry->registerSubscribingHandler($this->handlerSubscriber);
-            },
-        )->addDefaultHandlers()->configureListeners(
-            function (EventDispatcher $dispatcher) {
-                $dispatcher->addSubscriber($this->eventSubscriber);
-            },
-        )->addMetadataDir($confPath)->build();
+        $this->orderDataProvider = $orderDataProvider;
+        $this->orderItemDataProvider = $orderItemDataProvider;
     }
 
-    public function serializeOrder(Order $order): string
+    public function serializeOrder(OrderInterface $order): array
     {
-        $orderArray = $this->toArray($order);
+        $dataKeys = [
+            'order_status_id',
+            'custom_source_id',
+            'date_add',
+            'currency',
+            'payment_method',
+            'payment_method_cod',
+            'paid',
+            'user_comments',
+            'admin_comments',
+            'email',
+            'phone',
+            'user_login',
+            'delivery_method',
+            'delivery_price',
+            'delivery_fullname',
+            'delivery_company',
+            'delivery_address',
+            'delivery_postcode',
+            'delivery_city',
+            'delivery_state',
+            'delivery_country_code',
+            'delivery_point_id',
+            'delivery_point_name',
+            'delivery_point_address',
+            'delivery_point_postcode',
+            'delivery_point_city',
+            'invoice_fullname',
+            'invoice_company',
+            'invoice_nip',
+            'invoice_address',
+            'invoice_postcode',
+            'invoice_city',
+            'invoice_state',
+            'invoice_country_code',
+            'want_invoice',
+            'extra_field_1',
+            'extra_field_2',
+            'custom_extra_fields',
+            'products',
+        ];
 
-        $shipment = $order->getShipments()->first();
-        $shipmentArray = $this->toArray($shipment);
+        $this->orderDataProvider->setOrder($order);
+        $dataValues = array_map(function ($name): mixed {
+            return call_user_func_array([$this->orderDataProvider, $name], []);
+        }, $dataKeys);
 
-        $deliveryAddressArray = $this->toArray($order->getShippingAddress());
-        $deliveryAddressArray = $this->addPrefixToArrayKeys('delivery_', $deliveryAddressArray);
+        $combinedArray = array_combine($dataKeys, $dataValues);
 
-        $invoiceAddressArray = $this->toArray($order->getBillingAddress());
-        $invoiceAddressArray = $this->addPrefixToArrayKeys('invoice_', $invoiceAddressArray);
-
-        $fullOrderArray = array_merge($orderArray, $shipmentArray, $deliveryAddressArray, $invoiceAddressArray);
-        $jsonContent = $this->serialize($fullOrderArray);
-
-        return $jsonContent;
-    }
-
-    private function toArray(mixed $data): array
-    {
-        return $this->serializer->toArray($data, $this->getContext());
-    }
-
-    private function serialize(mixed $data): string
-    {
-        return $this->serializer->serialize($data, 'json', $this->getContext());
-    }
-
-    private function getContext(): SerializationContext
-    {
-        $context = new SerializationContext();
-        $context->setGroups(['bl']);
-        $context->setSerializeNull(true);
-
-        return $context;
-    }
-
-    /**
-     * @psalm-suppress MixedAssignment
-     */
-    private function addPrefixToArrayKeys(string $prefix, array $array): array
-    {
-        $outputArray = [];
-        foreach ($array as $key => $value) {
-            $outputArray[$prefix . (string) $key] = $value;
+        $orderItems = $order->getItems();
+        $products = [];
+        foreach ($orderItems as $item) {
+            $products[] = $this->serializeOrderItem($item);
         }
 
-        return $outputArray;
+        $adjustments = $order->getAdjustmentsRecursively(AdjustmentInterface::ORDER_PROMOTION_ADJUSTMENT);
+        $aggregatedOrderPromotions = [];
+        /** @var AdjustmentInterface $adjustment */
+        foreach ($adjustments as $adjustment) {
+            $label = $adjustment->getLabel();
+            if (null === $label) {
+                continue;
+            }
+            if (array_key_exists($label, $aggregatedOrderPromotions)) {
+                $aggregatedOrderPromotions[$label] += $adjustment->getAmount();
+            } else {
+                $aggregatedOrderPromotions[$label] = $adjustment->getAmount();
+            }
+        }
+
+        foreach ($aggregatedOrderPromotions as $label => $value) {
+            $adjustmentItem = [
+                'storage' => '',
+                'storage_id' => 0,
+                'product_id' => '',
+                'variant_id' => 0,
+                'name' => 'Order promotion: ' . $label,
+                'sku' => '',
+                'ean' => '',
+                'location' => '',
+                'warehouse_id' => 0,
+                'attributes' => '',
+                'price_brutto' => (float) ($value / 100),
+                'tax_rate' => 0.0,
+                'quantity' => 1,
+                'weight' => 0.0,
+            ];
+            $products[] = $adjustmentItem;
+        }
+
+        $combinedArray['products'] = $products;
+
+        return $combinedArray;
+    }
+
+    protected function serializeOrderItem(OrderItemInterface $orderItem): array
+    {
+        $dataKeys = [
+            'storage',
+            'storage_id',
+            'product_id',
+            'variant_id',
+            'name',
+            'sku',
+            'ean',
+            'location',
+            'warehouse_id',
+            'attributes',
+            'price_brutto',
+            'tax_rate',
+            'quantity',
+            'weight',
+        ];
+
+        $this->orderItemDataProvider->setItem($orderItem);
+        $dataValues = array_map(function ($name): mixed {
+            return call_user_func_array([$this->orderItemDataProvider, $name], []);
+        }, $dataKeys);
+
+        return array_combine($dataKeys, $dataValues);
     }
 }
