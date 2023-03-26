@@ -2,11 +2,11 @@ default:
     suites:
         orders_api:
             contexts:
-            - Tests\SyliusBaselinkerPlugin\Behat\Context\BaselinkerOrdersApiContext
+            - baselinker.test.orders.api
             filters:
                 tags: orderApi
         default:
             contexts:
-            - Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
+            - baselinker.test.test
             filters:
                 tags: test

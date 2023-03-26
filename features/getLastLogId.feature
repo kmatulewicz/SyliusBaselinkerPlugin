@@ -1,4 +1,4 @@
-
+@orderApi
 Feature: getLastLogId
     As developer
     I want to run getLastLogId function

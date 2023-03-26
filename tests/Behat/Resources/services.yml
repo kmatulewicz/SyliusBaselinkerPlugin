@@ -4,8 +4,10 @@ imports:
 services:
   baselinker.test.test:
     class: Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
+    public: true
 
-  baselinker.test.Orders.Api:
+  baselinker.test.orders.api:
     class: Tests\SyliusBaselinkerPlugin\Behat\Context\BaselinkerOrdersApiContext
+    public: true
     arguments:
       - '@baselinker.serializers.serializer'
