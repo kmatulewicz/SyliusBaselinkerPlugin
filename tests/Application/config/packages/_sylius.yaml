@@ -18,3 +18,9 @@ sylius_shop:
 
 sylius_api:
     enabled: true
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\SyliusBaselinkerPlugin\Application\Entity\Order

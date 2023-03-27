@@ -62,7 +62,8 @@
     "autoload": {
         "psr-4": {
             "SyliusBaselinkerPlugin\\": "src/",
-            "Tests\\SyliusBaselinkerPlugin\\": "tests/"
+            "Tests\\SyliusBaselinkerPlugin\\": "tests/",
+            "Tests\\SyliusBaselinkerPlugin\\Application\\": "tests/Application/src/"
         }
     },
     "autoload-dev": {

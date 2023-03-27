@@ -59,3 +59,13 @@ services:
         class: SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderItemDataProvider
         arguments:
             - "@sylius.tax_rate_resolver"
+
+    baselinker.form.extension.type.order:
+        class: SyliusBaselinkerPlugin\Form\Extension\OrderTypeExtension
+        tags:
+            - { 
+                name: form.type_extension,
+                extended_type: Sylius\Bundle\OrderBundle\Form\Type\OrderType,
+                extended-type: Sylius\Bundle\OrderBundle\Form\Type\OrderType,
+                priority: 110,
+                }
