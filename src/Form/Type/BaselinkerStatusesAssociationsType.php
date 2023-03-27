@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use SyliusBaselinkerPlugin\Model\BaselinkerSettings;
+use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
 use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

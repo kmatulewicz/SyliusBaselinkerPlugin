@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Model;
+namespace SyliusBaselinkerPlugin\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
