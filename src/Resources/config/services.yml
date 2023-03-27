@@ -39,7 +39,7 @@ services:
         tags:
             - { name: form.type }
         arguments:
-            - 'SyliusBaselinkerPlugin\Entity\BaselinkerSettings'
+            - 'SyliusBaselinkerPlugin\Model\BaselinkerSettings'
             - "@baselinker.orders.api.service"
 
     baselinker.statuses.associations.form.type:
@@ -47,7 +47,7 @@ services:
         tags:
             - { name: form.type }
         arguments:
-            - 'SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations'
+            - 'SyliusBaselinkerPlugin\Model\BaselinkerStatusesAssociations'
             - "@baselinker.orders.api.service"
 
     baselinker.data_provider.order:

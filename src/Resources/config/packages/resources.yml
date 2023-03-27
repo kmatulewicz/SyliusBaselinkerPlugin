@@ -3,12 +3,12 @@ sylius_resource:
         baselinker.settings:
             driver: doctrine/orm
             classes:
-                model: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+                model: SyliusBaselinkerPlugin\Model\BaselinkerSettings
                 form: SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType
                 repository: SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository
 
         baselinker.statuses:
             driver: doctrine/orm
             classes:
-                model: SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations
+                model: SyliusBaselinkerPlugin\Model\BaselinkerStatusesAssociations
                 form: SyliusBaselinkerPlugin\Form\Type\BaselinkerStatusesAssociationsType

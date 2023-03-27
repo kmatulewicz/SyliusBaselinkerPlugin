@@ -10,8 +10,8 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Customer\Model\CustomerInterface;
-use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
-use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
+use SyliusBaselinkerPlugin\Model\BaselinkerSettings;
+use SyliusBaselinkerPlugin\Model\BaselinkerStatusesAssociations;
 
 class BaselinkerOrderDataProvider implements BaselinkerOrderDataProviderInterface
 {

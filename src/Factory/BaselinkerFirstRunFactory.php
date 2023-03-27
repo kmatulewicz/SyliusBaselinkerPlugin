@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Factory;
 
 use Doctrine\ORM\EntityManagerInterface;
-use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
-use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
+use SyliusBaselinkerPlugin\Model\BaselinkerSettings;
+use SyliusBaselinkerPlugin\Model\BaselinkerStatusesAssociations;
 
 class BaselinkerFirstRunFactory
 {
