@@ -26,17 +26,10 @@ class BaselinkerStatusesAssociations implements ResourceInterface
     #[Column(type: Types::STRING)]
     private string $baselinkerStatus = '';
 
-    private static array $defaultStatuses = ['new', 'fulfilled', 'cancelled'];
-
     public function __construct(string $shopStatus, string $baselinkerStatus = '')
     {
         $this->setShopStatus($shopStatus);
         $this->setBaselinkerStatus($baselinkerStatus);
-    }
-
-    public static function getDefaultStatuses(): array
-    {
-        return self::$defaultStatuses;
     }
 
     public function getId(): string

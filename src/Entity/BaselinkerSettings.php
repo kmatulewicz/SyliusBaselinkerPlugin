@@ -26,17 +26,10 @@ class BaselinkerSettings implements ResourceInterface
     #[Column(type: Types::STRING)]
     private string $value = '';
 
-    private static array $defaultSettings = ['orderSource'];
-
     public function __construct(string $name, string $value = '')
     {
         $this->setName($name);
         $this->setValue($value);
-    }
-
-    public static function getDefaultSettings(): array
-    {
-        return self::$defaultSettings;
     }
 
     /**
