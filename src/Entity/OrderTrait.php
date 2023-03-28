@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Entity;
 
-use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 
 trait OrderTrait
 {
-    #[Column(type: Types::INTEGER, nullable: true)]
-    private ?int $baselinkerId = null;
+    #[Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $baselinkerId = 0;
 
-    #[Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $baselinkerUpdateTime = null;
+    #[Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $baselinkerUpdateTime = 0;
 
-    public function getBaselinkerId(): ?int
+    public function getBaselinkerId(): int
     {
         return $this->baselinkerId;
     }
@@ -28,14 +27,14 @@ trait OrderTrait
         return $this;
     }
 
-    public function getBaselinkerUpdateTime(): DateTime
+    public function getBaselinkerUpdateTime(): int
     {
         return $this->baselinkerUpdateTime;
     }
 
-    public function setBaselinkerUpdateTime(DateTime $dateTime): self
+    public function setBaselinkerUpdateTime(int $time): self
     {
-        $this->baselinkerUpdateTime = $dateTime;
+        $this->baselinkerUpdateTime = $time;
 
         return $this;
     }
