@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Services;
 
-use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Core\Model\OrderInterface;
 
 interface BaselinkerOrdersApiServiceInterface
 {
@@ -16,5 +16,5 @@ interface BaselinkerOrdersApiServiceInterface
 
     public function getOrderStatusList(): array;
 
-    public function addOrder(Order $order): int;
+    public function addOrder(OrderInterface $order): int;
 }

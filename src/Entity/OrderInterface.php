@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Entity;
 
-use Sylius\Component\Order\Model\OrderInterface as ModelOrderInterface;
+use Sylius\Component\Core\Model\OrderInterface as ModelOrderInterface;
 
 interface OrderInterface extends ModelOrderInterface
 {

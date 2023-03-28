@@ -7,7 +7,7 @@ namespace SyliusBaselinkerPlugin\Services;
 define('ALL_LOGS_TYPES', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
 
 use Exception;
-use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Core\Model\OrderInterface;
 use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
 
 class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
@@ -82,7 +82,7 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         return $response;
     }
 
-    public function addOrder(Order $order): int
+    public function addOrder(OrderInterface $order): int
     {
         $serializedOrder = $this->serializer->serializeOrder($order);
         $response = $this->apiRequest->do(__FUNCTION__, $serializedOrder);
