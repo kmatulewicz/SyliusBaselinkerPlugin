@@ -53,6 +53,12 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         }
         $response = (array) $content['logs'];
 
+        array_walk($response, function ($entry, $logTypes) {
+            if (false === $this->isValidJournalEntry($entry, $logTypes)) {
+                throw new Exception('Journal has invalid entry');
+            }
+        });
+
         return $response;
     }
 
@@ -91,5 +97,39 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         }
 
         return (int) $response['order_id'];
+    }
+
+    private function isValidJournalEntry(array $entry, array $types = ALL_LOGS_TYPES): bool
+    {
+        if (!array_key_exists('id', $entry) or !is_int($entry['id'])) {
+            return false;
+        }
+        if (!array_key_exists('order_id', $entry) or !is_int($entry['order_id'])) {
+            return false;
+        }
+        if (!array_key_exists('log_type', $entry) or !is_int($entry['log_type'])) {
+            return false;
+        }
+        if (!in_array($entry['log_type'], $types, true)) {
+            return false;
+        }
+        switch ($entry['log_type']) {
+            case 5:
+            case 6:
+            case 7:
+            case 9:
+            case 10:
+            case 14:
+            case 17:
+            case 18:
+                if (!array_key_exists('object_id', $entry) or !is_int($entry['object_id'])) {
+                    return false;
+                }
+        }
+        if (!array_key_exists('date', $entry) or !is_int($entry['date'])) {
+            return false;
+        }
+
+        return true;
     }
 }
