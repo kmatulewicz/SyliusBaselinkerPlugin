@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\DependencyInjection;
 
+use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
+use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
+use SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType;
+use SyliusBaselinkerPlugin\Form\Type\BaselinkerStatusesAssociationsType;
+use SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -33,6 +39,48 @@ final class Configuration implements ConfigurationInterface
             end()->
         end();
 
+        $this->addResourcesSection($rootNode);
+
         return $treeBuilder;
+    }
+
+    private function addResourcesSection(ArrayNodeDefinition $node): void
+    {
+        $node
+            ->children()
+                ->arrayNode('resources')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('baselinker_settings')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(BaselinkerSettings::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(BaselinkerSettingsRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(BaselinkerSettingsType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('baselinker_statuses')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(BaselinkerStatusesAssociations::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(BaselinkerStatusesAssociationsType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }
