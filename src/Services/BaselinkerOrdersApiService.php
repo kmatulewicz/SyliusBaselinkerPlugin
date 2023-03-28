@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Services;
 
-define('ALL_LOGS_TYPES', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
-
 use Exception;
 use Sylius\Component\Core\Model\OrderInterface;
 use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
@@ -35,7 +33,7 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         return null;
     }
 
-    public function getJournalList(int $lastLogId = 0, array $logTypes = ALL_LOGS_TYPES, int $orderId = 0): array
+    public function getJournalList(int $lastLogId = 0, array $logTypes = self::ALL_LOGS_TYPES, int $orderId = 0): array
     {
         $parameters = [];
         if (0 != $lastLogId) {
@@ -53,7 +51,7 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         }
         $response = (array) $content['logs'];
 
-        array_walk($response, function ($entry, $logTypes) {
+        array_walk($response, function (array $entry) use ($logTypes): void {
             if (false === $this->isValidJournalEntry($entry, $logTypes)) {
                 throw new Exception('Journal has invalid entry');
             }
@@ -99,9 +97,9 @@ class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
         return (int) $response['order_id'];
     }
 
-    private function isValidJournalEntry(array $entry, array $types = ALL_LOGS_TYPES): bool
+    private function isValidJournalEntry(array $entry, array $types = self::ALL_LOGS_TYPES): bool
     {
-        if (!array_key_exists('id', $entry) or !is_int($entry['id'])) {
+        if (!array_key_exists('log_id', $entry) or !is_int($entry['log_id'])) {
             return false;
         }
         if (!array_key_exists('order_id', $entry) or !is_int($entry['order_id'])) {
