@@ -10,7 +10,7 @@ use Exception;
 use Sylius\Component\Core\Model\Order;
 use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
 
-class BaselinkerOrdersApiService
+class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
 {
     private BaselinkerApiRequestService $apiRequest;
 
