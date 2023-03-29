@@ -8,7 +8,7 @@ use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class BaselinkerApiRequestService
+class BaselinkerApiRequestService implements BaselinkerApiRequestServiceInterface
 {
     private HttpClientInterface $client;
 

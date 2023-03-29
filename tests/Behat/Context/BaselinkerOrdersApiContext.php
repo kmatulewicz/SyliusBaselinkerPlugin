@@ -6,8 +6,9 @@ namespace Tests\SyliusBaselinkerPlugin\Behat\Context;
 
 use Behat\Behat\Context\Context;
 use Exception;
-use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializer;
+use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializerInterface;
 use SyliusBaselinkerPlugin\Services\BaselinkerApiRequestService;
+use SyliusBaselinkerPlugin\Services\BaselinkerApiRequestServiceInterface;
 use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -17,12 +18,12 @@ use function PHPUnit\Framework\assertNull;
 
 class BaselinkerOrdersApiContext  implements Context
 {
-    private BaselinkerApiRequestService $apiRequest;
+    private BaselinkerApiRequestServiceInterface $apiRequest;
     private BaselinkerOrdersApiService $orderApi;
     private mixed $result = "dummy";
-    private BaselinkerSerializer $serializer;
+    private BaselinkerSerializerInterface $serializer;
 
-    public function __construct(BaselinkerSerializer $serializer)
+    public function __construct(BaselinkerSerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }

@@ -10,7 +10,7 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderDataProviderInterface;
 use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderItemDataProviderInterface;
 
-class BaselinkerSerializer
+class BaselinkerSerializer implements BaselinkerSerializerInterface
 {
     private BaselinkerOrderDataProviderInterface $orderDataProvider;
 
