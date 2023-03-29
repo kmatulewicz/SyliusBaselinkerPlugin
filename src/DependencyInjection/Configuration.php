@@ -8,7 +8,6 @@ use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
 use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
 use SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType;
 use SyliusBaselinkerPlugin\Form\Type\BaselinkerStatusesAssociationsType;
-use SyliusBaselinkerPlugin\Repository\BaselinkerSettingsRepository;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -59,7 +58,6 @@ final class Configuration implements ConfigurationInterface
                                     ->addDefaultsIfNotSet()
                                     ->children()
                                         ->scalarNode('model')->defaultValue(BaselinkerSettings::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(BaselinkerSettingsRepository::class)->cannotBeEmpty()->end()
                                         ->scalarNode('form')->defaultValue(BaselinkerSettingsType::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
