@@ -1,15 +1,10 @@
+imports:
+  - { resource: "services/*.yml" }
+
 services:
     sylius.baselinker.plugin:
         class: SyliusBaselinkerPlugin\Command\TestCommand
         arguments:
-        tags: ['console.command']
-
-    baselinker.command.order.sync:
-        class: SyliusBaselinkerPlugin\Command\OrdersSyncCommand
-        arguments:
-            - '@sylius.repository.order'
-            - '@baselinker.orders.api.service'
-            - '@sylius.manager.order'
         tags: ['console.command']
         
     baselinker.api.request.service:
