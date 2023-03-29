@@ -7,8 +7,8 @@ namespace SyliusBaselinkerPlugin\Serializers;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
-use SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderDataProviderInterface;
-use SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderItemDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderItemDataProviderInterface;
 
 class BaselinkerSerializer
 {

@@ -54,12 +54,12 @@ services:
             - "@baselinker.orders.api.service"
 
     baselinker.data_provider.order:
-        class: SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderDataProvider
+        class: SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderDataProvider
         arguments:
             - "@doctrine.orm.default_entity_manager"
 
     baselinker.data_provider.order_item:
-        class: SyliusBaselinkerPlugin\DataProviders\BaselinkerOrderItemDataProvider
+        class: SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderItemDataProvider
         arguments:
             - "@sylius.tax_rate_resolver"
 

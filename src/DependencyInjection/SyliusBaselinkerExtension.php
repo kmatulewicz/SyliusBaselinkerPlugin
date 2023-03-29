@@ -49,12 +49,12 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
 
     protected function getMigrationsNamespace(): string
     {
-        return 'SyliusBaselinkerPlugin\Migrations';
+        return 'SyliusBaselinkerPlugin\Migration';
     }
 
     protected function getMigrationsDirectory(): string
     {
-        return '@SyliusBaselinkerPlugin/src/Migrations';
+        return '@SyliusBaselinkerPlugin/src/Migration';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\DataProviders;
+namespace SyliusBaselinkerPlugin\DataProvider;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AddressInterface;

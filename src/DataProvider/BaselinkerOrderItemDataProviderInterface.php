@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\DataProviders;
+namespace SyliusBaselinkerPlugin\DataProvider;
 
 use Sylius\Component\Core\Model\OrderItemInterface;
 

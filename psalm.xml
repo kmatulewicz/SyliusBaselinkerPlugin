@@ -13,7 +13,7 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
-            <directory name="src/Migrations" />
+            <directory name="src/Migration" />
             <directory name="src/DependencyInjection" />
         </ignoreFiles>
     </projectFiles>
