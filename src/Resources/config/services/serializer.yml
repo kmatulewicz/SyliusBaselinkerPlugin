@@ -1,0 +1,7 @@
+services:
+  baselinker.serializer.order:
+    class: SyliusBaselinkerPlugin\Serializer\OrderSerializer
+    public: true
+    arguments:
+      - "@baselinker.data_provider.order"
+      - "@baselinker.data_provider.order_item"

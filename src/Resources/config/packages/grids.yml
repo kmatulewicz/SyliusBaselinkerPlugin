@@ -4,7 +4,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: SyliusBaselinkerPlugin\Entity\BaselinkerSettings
+                    class: SyliusBaselinkerPlugin\Entity\Settings
             fields:
                 name:
                     type: string
@@ -21,14 +21,14 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations
+                    class: SyliusBaselinkerPlugin\Entity\StatusesAssociations
             fields:
                 shopStatus:
                     type: string
-                    label: baselinker.ui.shopStatus
+                    label: baselinker.ui.shop_status
                 baselinkerStatus:
                     type: string
-                    label: baselinker.ui.baselinkerStatus
+                    label: baselinker.ui.baselinker_status
             actions:
                 main:
                     create:

@@ -1,5 +1,5 @@
 services:
-  baselinker.status.resolver:
-    class: SyliusBaselinkerPlugin\Resolver\BaselinkerStatusResolver
+  baselinker.resolver.status:
+    class: SyliusBaselinkerPlugin\Resolver\StatusResolver
     arguments:
       - "@doctrine.orm.default_entity_manager"

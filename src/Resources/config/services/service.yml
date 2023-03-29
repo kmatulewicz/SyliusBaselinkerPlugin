@@ -1,6 +1,20 @@
 services:
   baselinker.service.order_status_applier:
-    class: SyliusBaselinkerPlugin\Services\BaselinkerOrderStatusApplier
+    class: SyliusBaselinkerPlugin\Service\OrderStatusApplier
     arguments:
       - "@sm.factory"
-      - "@baselinker.status.resolver"
+      - "@baselinker.resolver.status"
+
+  baselinker.service.api_request:
+    class: SyliusBaselinkerPlugin\Service\ApiRequestService
+    arguments:
+      - '@Symfony\Contracts\HttpClient\HttpClientInterface'
+      - "%sylius.baselinker_token%"
+      - "%sylius.baselinker_url%"
+      - "%sylius.baselinker_method%"
+
+  baselinker.service.orders_api:
+    class: SyliusBaselinkerPlugin\Service\OrdersApiService
+    arguments:
+      - "@baselinker.service.api_request"
+      - "@baselinker.serializer.order"

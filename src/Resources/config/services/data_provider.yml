@@ -1,0 +1,10 @@
+services:
+    baselinker.data_provider.order:
+        class: SyliusBaselinkerPlugin\DataProvider\OrderDataProvider
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+
+    baselinker.data_provider.order_item:
+        class: SyliusBaselinkerPlugin\DataProvider\OrderItemDataProvider
+        arguments:
+            - "@sylius.tax_rate_resolver"

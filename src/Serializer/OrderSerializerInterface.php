@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Serializers;
+namespace SyliusBaselinkerPlugin\Serializer;
 
 use Sylius\Component\Core\Model\OrderInterface;
 
-interface BaselinkerSerializerInterface
+interface OrderSerializerInterface
 {
     public function serializeOrder(OrderInterface $order): array;
 }

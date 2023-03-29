@@ -6,7 +6,7 @@ namespace SyliusBaselinkerPlugin\DataProvider;
 
 use Sylius\Component\Core\Model\OrderItemInterface;
 
-interface BaselinkerOrderItemDataProviderInterface
+interface OrderItemDataProviderInterface
 {
     public function setItem(OrderItemInterface $orderItem): void;
 

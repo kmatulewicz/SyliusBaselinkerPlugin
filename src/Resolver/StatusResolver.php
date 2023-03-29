@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Resolver;
 
 use Doctrine\ORM\EntityManagerInterface;
-use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
+use SyliusBaselinkerPlugin\Entity\StatusesAssociations;
 
-class BaselinkerStatusResolver implements BaselinkerStatusResolverInterface
+class StatusResolver implements StatusResolverInterface
 {
     private EntityManagerInterface $entityManager;
 
@@ -37,16 +37,16 @@ class BaselinkerStatusResolver implements BaselinkerStatusResolverInterface
         return (false === $key) ? null : $key;
     }
 
-    /** @return array<int, BaselinkerStatusesAssociations> */
+    /** @return array<int, StatusesAssociations> */
     private function getAllAssociations(): array
     {
-        $repository = $this->entityManager->getRepository(BaselinkerStatusesAssociations::class);
+        $repository = $this->entityManager->getRepository(StatusesAssociations::class);
 
         return $repository->findAll();
     }
 
     /**
-     * @param array<int, BaselinkerStatusesAssociations> $associations
+     * @param array<int, StatusesAssociations> $associations
      *
      * @return array<string, string>
      */

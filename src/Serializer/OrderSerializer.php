@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Serializers;
+namespace SyliusBaselinkerPlugin\Serializer;
 
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
-use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderDataProviderInterface;
-use SyliusBaselinkerPlugin\DataProvider\BaselinkerOrderItemDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProvider\OrderDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProvider\OrderItemDataProviderInterface;
 
-class BaselinkerSerializer implements BaselinkerSerializerInterface
+class OrderSerializer implements OrderSerializerInterface
 {
-    private BaselinkerOrderDataProviderInterface $orderDataProvider;
+    private OrderDataProviderInterface $orderDataProvider;
 
-    private BaselinkerOrderItemDataProviderInterface $orderItemDataProvider;
+    private OrderItemDataProviderInterface $orderItemDataProvider;
 
     public function __construct(
-        BaselinkerOrderDataProviderInterface $orderDataProvider,
-        BaselinkerOrderItemDataProviderInterface $orderItemDataProvider,
+        OrderDataProviderInterface $orderDataProvider,
+        OrderItemDataProviderInterface $orderItemDataProvider,
     ) {
         $this->orderDataProvider = $orderDataProvider;
         $this->orderItemDataProvider = $orderItemDataProvider;

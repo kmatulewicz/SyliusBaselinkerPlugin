@@ -1,0 +1,9 @@
+services:
+  baselinker.subscriber.admin_menu_builder:
+    class: SyliusBaselinkerPlugin\Subscriber\AdminMenuSubscriber
+    tags:
+      - {
+          name: kernel.event_listener,
+          event: sylius.menu.admin.main,
+          method: addAdminMenuEntries,
+        }

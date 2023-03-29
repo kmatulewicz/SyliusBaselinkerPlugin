@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Services;
+namespace SyliusBaselinkerPlugin\Service;
 
 use Exception;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class BaselinkerApiRequestService implements BaselinkerApiRequestServiceInterface
+class ApiRequestService implements ApiRequestServiceInterface
 {
     private HttpClientInterface $client;
 

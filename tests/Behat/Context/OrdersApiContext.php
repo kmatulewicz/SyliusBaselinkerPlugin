@@ -6,24 +6,24 @@ namespace Tests\SyliusBaselinkerPlugin\Behat\Context;
 
 use Behat\Behat\Context\Context;
 use Exception;
-use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializerInterface;
-use SyliusBaselinkerPlugin\Services\BaselinkerApiRequestService;
-use SyliusBaselinkerPlugin\Services\BaselinkerApiRequestServiceInterface;
-use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
+use SyliusBaselinkerPlugin\Serializer\OrderSerializerInterface;
+use SyliusBaselinkerPlugin\Service\ApiRequestService;
+use SyliusBaselinkerPlugin\Service\ApiRequestServiceInterface;
+use SyliusBaselinkerPlugin\Service\OrdersApiService;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 use function PHPUnit\Framework\assertIsInt;
 use function PHPUnit\Framework\assertNull;
 
-class BaselinkerOrdersApiContext  implements Context
+class OrdersApiContext  implements Context
 {
-    private BaselinkerApiRequestServiceInterface $apiRequest;
-    private BaselinkerOrdersApiService $orderApi;
+    private ApiRequestServiceInterface $apiRequest;
+    private OrdersApiService $orderApi;
     private mixed $result = "dummy";
-    private BaselinkerSerializerInterface $serializer;
+    private OrderSerializerInterface $serializer;
 
-    public function __construct(BaselinkerSerializerInterface $serializer)
+    public function __construct(OrderSerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
@@ -67,9 +67,9 @@ class BaselinkerOrdersApiContext  implements Context
           }';
         $body = ($arg2 === 'correct') ? $correctBody : $incorrectBody;
         $response = ($arg1 === 'up') ? new MockResponse($body) : null;
-        $this->apiRequest = new BaselinkerApiRequestService(new MockHttpClient($response), $arg1, 'https://example.com', 'POST');
+        $this->apiRequest = new ApiRequestService(new MockHttpClient($response), $arg1, 'https://example.com', 'POST');
 
-        $this->orderApi = new BaselinkerOrdersApiService($this->apiRequest, $this->serializer);
+        $this->orderApi = new OrdersApiService($this->apiRequest, $this->serializer);
     }
 
     /**

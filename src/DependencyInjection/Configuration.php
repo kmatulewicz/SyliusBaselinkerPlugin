@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\DependencyInjection;
 
-use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
-use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
-use SyliusBaselinkerPlugin\Form\Type\BaselinkerSettingsType;
-use SyliusBaselinkerPlugin\Form\Type\BaselinkerStatusesAssociationsType;
+use SyliusBaselinkerPlugin\Entity\Settings;
+use SyliusBaselinkerPlugin\Entity\StatusesAssociations;
+use SyliusBaselinkerPlugin\Form\Type\SettingsType;
+use SyliusBaselinkerPlugin\Form\Type\StatusesAssociationsType;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -57,8 +57,8 @@ final class Configuration implements ConfigurationInterface
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
-                                        ->scalarNode('model')->defaultValue(BaselinkerSettings::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('form')->defaultValue(BaselinkerSettingsType::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('model')->defaultValue(Settings::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(SettingsType::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()
@@ -70,8 +70,8 @@ final class Configuration implements ConfigurationInterface
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
-                                        ->scalarNode('model')->defaultValue(BaselinkerStatusesAssociations::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('form')->defaultValue(BaselinkerStatusesAssociationsType::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('model')->defaultValue(StatusesAssociations::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(StatusesAssociationsType::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()

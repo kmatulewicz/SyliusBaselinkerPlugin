@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\ProductInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 
-class BaselinkerOrderItemDataProvider implements BaselinkerOrderItemDataProviderInterface
+class OrderItemDataProvider implements OrderItemDataProviderInterface
 {
     private ?OrderItemInterface $orderItem;
 

@@ -1,0 +1,16 @@
+services:
+  baselinker.form.settings_type:
+    class: SyliusBaselinkerPlugin\Form\Type\SettingsType
+    tags:
+      - { name: form.type }
+    arguments:
+      - 'SyliusBaselinkerPlugin\Entity\Settings'
+      - "@baselinker.service.orders_api"
+
+  baselinker.form.statuses_associations_type:
+    class: SyliusBaselinkerPlugin\Form\Type\StatusesAssociationsType
+    tags:
+      - { name: form.type }
+    arguments:
+      - 'SyliusBaselinkerPlugin\Entity\StatusesAssociations'
+      - "@baselinker.service.orders_api"

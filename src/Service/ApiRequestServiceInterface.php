@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Services;
+namespace SyliusBaselinkerPlugin\Service;
 
-interface BaselinkerApiRequestServiceInterface
+interface ApiRequestServiceInterface
 {
     public function do(string $method, array $parameters = []): array;
 }

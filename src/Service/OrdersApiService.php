@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Services;
+namespace SyliusBaselinkerPlugin\Service;
 
 use Exception;
 use Sylius\Component\Core\Model\OrderInterface;
-use SyliusBaselinkerPlugin\Serializers\BaselinkerSerializerInterface;
+use SyliusBaselinkerPlugin\Serializer\OrderSerializerInterface;
 
-class BaselinkerOrdersApiService implements BaselinkerOrdersApiServiceInterface
+class OrdersApiService implements OrdersApiServiceInterface
 {
-    private BaselinkerApiRequestServiceInterface $apiRequest;
+    private ApiRequestServiceInterface $apiRequest;
 
-    private BaselinkerSerializerInterface $serializer;
+    private OrderSerializerInterface $serializer;
 
-    public function __construct(BaselinkerApiRequestServiceInterface $apiRequest, BaselinkerSerializerInterface $serializer)
+    public function __construct(ApiRequestServiceInterface $apiRequest, OrderSerializerInterface $serializer)
     {
         $this->apiRequest = $apiRequest;
         $this->serializer = $serializer;

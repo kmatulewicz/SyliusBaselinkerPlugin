@@ -7,7 +7,7 @@ services:
     public: true
 
   baselinker.test.orders.api:
-    class: Tests\SyliusBaselinkerPlugin\Behat\Context\BaselinkerOrdersApiContext
+    class: Tests\SyliusBaselinkerPlugin\Behat\Context\OrdersApiContext
     public: true
     arguments:
-      - '@baselinker.serializers.serializer'
+      - '@baselinker.serializer.order'

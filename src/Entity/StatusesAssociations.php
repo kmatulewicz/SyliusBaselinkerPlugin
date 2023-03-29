@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 #[Entity]
 #[Table('baselinker_statuses_associations')]
-class BaselinkerStatusesAssociations implements ResourceInterface
+class StatusesAssociations implements ResourceInterface
 {
     #[Id]
     #[Column(type: Types::STRING)]

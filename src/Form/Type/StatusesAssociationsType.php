@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Form\Type;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
-use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
-use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiService;
+use SyliusBaselinkerPlugin\Entity\Settings;
+use SyliusBaselinkerPlugin\Service\OrdersApiService;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class BaselinkerStatusesAssociationsType extends AbstractResourceType
+class StatusesAssociationsType extends AbstractResourceType
 {
-    private BaselinkerOrdersApiService $baselinkerOrder;
+    private OrdersApiService $baselinkerOrder;
 
     /** @param  array<array-key, string> $validationGroups*/
-    public function __construct(string $dataClass, BaselinkerOrdersApiService $baselinkerOrder, array $validationGroups = [])
+    public function __construct(string $dataClass, OrdersApiService $baselinkerOrder, array $validationGroups = [])
     {
         $this->baselinkerOrder = $baselinkerOrder;
 
@@ -25,7 +25,7 @@ class BaselinkerStatusesAssociationsType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /** @var BaselinkerSettings $setting */
+        /** @var Settings $setting */
         $setting = $options['data'];
 
         $statuses = $this->baselinkerOrder->getOrderStatusList();

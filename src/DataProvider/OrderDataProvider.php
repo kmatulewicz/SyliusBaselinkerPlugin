@@ -10,10 +10,10 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Customer\Model\CustomerInterface;
-use SyliusBaselinkerPlugin\Entity\BaselinkerSettings;
-use SyliusBaselinkerPlugin\Entity\BaselinkerStatusesAssociations;
+use SyliusBaselinkerPlugin\Entity\Settings;
+use SyliusBaselinkerPlugin\Entity\StatusesAssociations;
 
-class BaselinkerOrderDataProvider implements BaselinkerOrderDataProviderInterface
+class OrderDataProvider implements OrderDataProviderInterface
 {
     protected ?OrderInterface $order;
 
@@ -47,16 +47,16 @@ class BaselinkerOrderDataProvider implements BaselinkerOrderDataProviderInterfac
         if (null === $this->order) {
             return 0;
         }
-        /** @var BaselinkerStatusesAssociations|null $statusAssociation */
-        $statusAssociation = $this->entityManager->find(BaselinkerStatusesAssociations::class, $this->order->getState());
+        /** @var StatusesAssociations|null $statusAssociation */
+        $statusAssociation = $this->entityManager->find(StatusesAssociations::class, $this->order->getState());
 
         return (null === $statusAssociation) ? 0 : (int) $statusAssociation->getBaselinkerStatus();
     }
 
     public function custom_source_id(): int
     {
-        /** @var BaselinkerSettings|null $orderSource */
-        $orderSource = $this->entityManager->find(BaselinkerSettings::class, 'orderSource');
+        /** @var Settings|null $orderSource */
+        $orderSource = $this->entityManager->find(Settings::class, 'orderSource');
 
         return (null === $orderSource) ? 0 : (int) $orderSource->getValue();
     }

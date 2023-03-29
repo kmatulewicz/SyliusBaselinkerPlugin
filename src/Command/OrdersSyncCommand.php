@@ -8,8 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
-use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiServiceInterface;
-use SyliusBaselinkerPlugin\Services\BaselinkerOrderStatusApplierInterface;
+use SyliusBaselinkerPlugin\Service\OrdersApiServiceInterface;
+use SyliusBaselinkerPlugin\Service\OrderStatusApplierInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,17 +18,17 @@ class OrdersSyncCommand extends Command
 {
     private OrderRepositoryInterface $orderRepository;
 
-    private BaselinkerOrdersApiServiceInterface $orderApi;
+    private OrdersApiServiceInterface $orderApi;
 
     private EntityManagerInterface $entityManager;
 
-    private BaselinkerOrderStatusApplierInterface $statusApplier;
+    private OrderStatusApplierInterface $statusApplier;
 
     public function __construct(
         OrderRepositoryInterface $orderRepository,
-        BaselinkerOrdersApiServiceInterface $orderApi,
+        OrdersApiServiceInterface $orderApi,
         EntityManagerInterface $entityManager,
-        BaselinkerOrderStatusApplierInterface $statusApplier,
+        OrderStatusApplierInterface $statusApplier,
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderApi = $orderApi;

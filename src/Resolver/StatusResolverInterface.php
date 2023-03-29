@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Resolver;
 
-interface BaselinkerStatusResolverInterface
+interface StatusResolverInterface
 {
     public function resolveShopStatus(int $baselinkerStatus): ?string;
 

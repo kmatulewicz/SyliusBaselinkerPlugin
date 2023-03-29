@@ -1,6 +1,10 @@
 imports:
-    - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/resources.yml" }
-    - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/grids.yml" }
+    - {
+          resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/resources.yml",
+      }
+    - {
+          resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/grids.yml",
+      }
 
 sylius_baselinker:
     token: "%env(string:BL_TOKEN)%"

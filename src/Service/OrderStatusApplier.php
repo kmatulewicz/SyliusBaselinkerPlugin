@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Services;
+namespace SyliusBaselinkerPlugin\Service;
 
 use SM\Factory\FactoryInterface;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\OrderShippingTransitions;
 use Sylius\Component\Order\OrderTransitions;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
-use SyliusBaselinkerPlugin\Resolver\BaselinkerStatusResolverInterface;
+use SyliusBaselinkerPlugin\Resolver\StatusResolverInterface;
 
-class BaselinkerOrderStatusApplier implements BaselinkerOrderStatusApplierInterface
+class OrderStatusApplier implements OrderStatusApplierInterface
 {
     private FactoryInterface $smFactory;
 
-    private BaselinkerStatusResolverInterface $statusResolver;
+    private StatusResolverInterface $statusResolver;
 
     public function __construct(
         FactoryInterface $smFactory,
-        BaselinkerStatusResolverInterface $statusResolver,
+        StatusResolverInterface $statusResolver,
     ) {
         $this->smFactory = $smFactory;
         $this->statusResolver = $statusResolver;

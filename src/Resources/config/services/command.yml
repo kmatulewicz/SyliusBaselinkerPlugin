@@ -1,9 +1,14 @@
 services:
+  baselinker.command.test.test:
+    class: SyliusBaselinkerPlugin\Command\TestCommand
+    arguments:
+    tags: ["console.command"]
+
   baselinker.command.order.sync:
     class: SyliusBaselinkerPlugin\Command\OrdersSyncCommand
     arguments:
       - "@sylius.repository.order"
-      - "@baselinker.orders.api.service"
+      - "@baselinker.service.orders_api"
       - "@doctrine.orm.default_entity_manager"
-      - '@baselinker.service.order_status_applier'
+      - "@baselinker.service.order_status_applier"
     tags: ["console.command"]

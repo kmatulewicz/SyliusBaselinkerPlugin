@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SyliusBaselinkerPlugin\Subscribers;
+namespace SyliusBaselinkerPlugin\Subscriber;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-final class BaselinkerAdminMenuSubscriber
+final class AdminMenuSubscriber
 {
     public function addAdminMenuEntries(MenuBuilderEvent $event): void
     {
