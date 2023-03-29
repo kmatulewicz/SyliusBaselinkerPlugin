@@ -9,6 +9,7 @@ use Exception;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
 use SyliusBaselinkerPlugin\Services\BaselinkerOrdersApiServiceInterface;
+use SyliusBaselinkerPlugin\Services\BaselinkerOrderStatusApplierInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,14 +22,18 @@ class OrdersSyncCommand extends Command
 
     private EntityManagerInterface $entityManager;
 
+    private BaselinkerOrderStatusApplierInterface $statusApplier;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         BaselinkerOrdersApiServiceInterface $orderApi,
         EntityManagerInterface $entityManager,
+        BaselinkerOrderStatusApplierInterface $statusApplier,
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderApi = $orderApi;
         $this->entityManager = $entityManager;
+        $this->statusApplier = $statusApplier;
 
         parent::__construct();
     }
@@ -67,11 +72,35 @@ class OrdersSyncCommand extends Command
                     'Order ' . (string) $order->getId() . ' ' . $exception->getMessage();
                 $output->writeln($message);
             }
-
-            /** @todo update existing order on Baselinker */
-
-            /** @todo update order on Sylius */
         }
+
+        /** @todo update existing order on Baselinker */
+        /** @todo update order on Sylius */
+        $journal = $this->orderApi->getJournalList(0, [18]);
+
+        /** @var array<string, int> $entry */
+        foreach ($journal as $entry) {
+            /** @var OrderInterface|null $order */
+            $order = $this->orderRepository->findOneBy(['baselinkerId' => $entry['order_id']]);
+            if (!is_object($order)) {
+                continue;
+            }
+            if ($order->getBaselinkerUpdateTime() > $entry['date']) {
+                continue;
+            }
+
+            $output->write('Order ' . (string) $order->getId() . ': ');
+
+            $this->statusApplier->apply($order, $entry['log_type'], $entry['object_id']);
+
+            $output->writeln('updated ');
+
+            $order->setBaselinkerUpdateTime(time());
+            $this->entityManager->persist($order);
+            $this->entityManager->flush();
+        }
+
+        $output->writeln('Done');
 
         return Command::SUCCESS;
     }

@@ -1,0 +1,9 @@
+services:
+  baselinker.command.order.sync:
+    class: SyliusBaselinkerPlugin\Command\OrdersSyncCommand
+    arguments:
+      - "@sylius.repository.order"
+      - "@baselinker.orders.api.service"
+      - "@doctrine.orm.default_entity_manager"
+      - '@baselinker.service.order_status_applier'
+    tags: ["console.command"]

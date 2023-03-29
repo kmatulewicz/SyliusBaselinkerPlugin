@@ -1,0 +1,6 @@
+services:
+  baselinker.service.order_status_applier:
+    class: SyliusBaselinkerPlugin\Services\BaselinkerOrderStatusApplier
+    arguments:
+      - "@sm.factory"
+      - "@baselinker.status.resolver"
