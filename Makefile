@@ -1,5 +1,5 @@
 phpunit:
-	vendor/bin/phpunit
+	APP_ENV=test vendor/bin/phpunit
 
 phpspec:
 	vendor/bin/phpspec run --ansi --no-interaction -f dot

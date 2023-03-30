@@ -1,4 +1,5 @@
 imports:
+    - { resource: "../../../src/Resources/config/services_test.yml" }
     - { resource: "../../Behat/Resources/services.yml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
 
