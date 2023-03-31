@@ -22,72 +22,7 @@ final class StatusResolverTest extends KernelTestCase
         ['status5', '5'],
     ];
 
-    /** @test */
-    public function it_can_be_initialized()
-    {
-        $this->prepare();
-
-        /** @var StatusResolver $statusResolver */
-        $statusResolver = static::getContainer()->get(StatusResolver::class);
-
-        $this->assertInstanceOf(StatusResolverInterface::class, $statusResolver);
-    }
-
-    /**
-     * @test
-     * @dataProvider provide
-     */
-    public function it_can_resolve_baselinker_status($shopStatus, $baselinkerStatus)
-    {
-        $this->prepare();
-
-        /** @var StatusResolver $statusResolver */
-        $statusResolver = static::getContainer()->get(StatusResolver::class);
-
-        $result = $statusResolver->resolveBaselinkerStatus($shopStatus);
-        $this->assertEquals($baselinkerStatus, $result);
-    }
-
-    /**
-     * @test
-     * @dataProvider provide
-     */
-    public function it_can_resolve_shop_status($shopStatus, $baselinkerStatus)
-    {
-        $this->prepare();
-
-        /** @var StatusResolver $statusResolver */
-        $statusResolver = static::getContainer()->get(StatusResolver::class);
-
-        $result = $statusResolver->resolveShopStatus((int) $baselinkerStatus);
-        $this->assertEquals($shopStatus, $result);
-    }
-
-    /** @test */
-    public function it_return_null_on_not_assigned_baselinker_status()
-    {
-        $this->prepare();
-
-        /** @var StatusResolver $statusResolver */
-        $statusResolver = static::getContainer()->get(StatusResolver::class);
-
-        $result = $statusResolver->resolveShopStatus(100);
-        $this->assertNull($result);
-    }
-
-    /** @test */
-    public function it_return_null_on_not_existing_shop_status()
-    {
-        $this->prepare();
-
-        /** @var StatusResolver $statusResolver */
-        $statusResolver = static::getContainer()->get(StatusResolver::class);
-
-        $result = $statusResolver->resolveBaselinkerStatus('not_existing_shop_status');
-        $this->assertNull($result);
-    }
-
-    private function prepare(): void
+    public function setUp(): void
     {
         self::bootKernel();
 
@@ -100,6 +35,61 @@ final class StatusResolverTest extends KernelTestCase
         $entityManager->expects(self::once())->method('getRepository')->willReturn($repository);
 
         static::getContainer()->set(EntityManagerInterface::class, $entityManager);
+    }
+
+    /** @test */
+    public function it_can_be_initialized(): void
+    {
+        /** @var StatusResolver $statusResolver */
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
+
+        $this->assertInstanceOf(StatusResolverInterface::class, $statusResolver);
+    }
+
+    /**
+     * @test
+     * @dataProvider provide
+     */
+    public function it_can_resolve_baselinker_status($shopStatus, $baselinkerStatus): void
+    {
+        /** @var StatusResolver $statusResolver */
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
+
+        $result = $statusResolver->resolveBaselinkerStatus($shopStatus);
+        $this->assertEquals($baselinkerStatus, $result);
+    }
+
+    /**
+     * @test
+     * @dataProvider provide
+     */
+    public function it_can_resolve_shop_status($shopStatus, $baselinkerStatus): void
+    {
+        /** @var StatusResolver $statusResolver */
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
+
+        $result = $statusResolver->resolveShopStatus((int) $baselinkerStatus);
+        $this->assertEquals($shopStatus, $result);
+    }
+
+    /** @test */
+    public function it_return_null_on_not_assigned_baselinker_status(): void
+    {
+        /** @var StatusResolver $statusResolver */
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
+
+        $result = $statusResolver->resolveShopStatus(100);
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    public function it_return_null_on_not_existing_shop_status(): void
+    {
+        /** @var StatusResolver $statusResolver */
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
+
+        $result = $statusResolver->resolveBaselinkerStatus('not_existing_shop_status');
+        $this->assertNull($result);
     }
 
     private function prepare_associations(): array
