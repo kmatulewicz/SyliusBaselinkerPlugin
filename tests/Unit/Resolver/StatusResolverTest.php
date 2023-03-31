@@ -14,9 +14,6 @@ use SyliusBaselinkerPlugin\Resolver\StatusResolver;
 
 final class StatusResolverTest extends KernelTestCase
 {
-
-    private $container;
-
     private $associations = [
         ['status1', '1'],
         ['status2', '2'],
@@ -31,7 +28,7 @@ final class StatusResolverTest extends KernelTestCase
         $this->prepare();
 
         /** @var StatusResolver $statusResolver */
-        $statusResolver = $this->container->get(StatusResolver::class);
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
 
         $this->assertInstanceOf(StatusResolverInterface::class, $statusResolver);
     }
@@ -45,7 +42,7 @@ final class StatusResolverTest extends KernelTestCase
         $this->prepare();
 
         /** @var StatusResolver $statusResolver */
-        $statusResolver = $this->container->get(StatusResolver::class);
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
 
         $result = $statusResolver->resolveBaselinkerStatus($shopStatus);
         $this->assertEquals($baselinkerStatus, $result);
@@ -60,7 +57,7 @@ final class StatusResolverTest extends KernelTestCase
         $this->prepare();
 
         /** @var StatusResolver $statusResolver */
-        $statusResolver = $this->container->get(StatusResolver::class);
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
 
         $result = $statusResolver->resolveShopStatus((int) $baselinkerStatus);
         $this->assertEquals($shopStatus, $result);
@@ -72,7 +69,7 @@ final class StatusResolverTest extends KernelTestCase
         $this->prepare();
 
         /** @var StatusResolver $statusResolver */
-        $statusResolver = $this->container->get(StatusResolver::class);
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
 
         $result = $statusResolver->resolveShopStatus(100);
         $this->assertNull($result);
@@ -84,7 +81,7 @@ final class StatusResolverTest extends KernelTestCase
         $this->prepare();
 
         /** @var StatusResolver $statusResolver */
-        $statusResolver = $this->container->get(StatusResolver::class);
+        $statusResolver = static::getContainer()->get(StatusResolver::class);
 
         $result = $statusResolver->resolveBaselinkerStatus('not_existing_shop_status');
         $this->assertNull($result);
@@ -93,7 +90,6 @@ final class StatusResolverTest extends KernelTestCase
     private function prepare(): void
     {
         self::bootKernel();
-        $this->container = static::getContainer();
 
         /** @var MockObject $repository */
         $repository = $this->createMock(RepositoryInterface::class);
@@ -103,7 +99,7 @@ final class StatusResolverTest extends KernelTestCase
         $entityManager = $this->createMock(EntityManagerInterface::class);
         $entityManager->expects(self::once())->method('getRepository')->willReturn($repository);
 
-        $this->container->set(EntityManagerInterface::class, $entityManager);
+        static::getContainer()->set(EntityManagerInterface::class, $entityManager);
     }
 
     private function prepare_associations(): array
