@@ -27,7 +27,7 @@ sylius_grid:
                     type: string
                     label: baselinker.ui.shop_status
                 baselinkerStatus:
-                    type: string
+                    type: status_connected
                     label: baselinker.ui.baselinker_status
             actions:
                 main:

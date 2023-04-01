@@ -1,0 +1,7 @@
+services:
+  baselinker.grid_field.status_connected:
+    class: SyliusBaselinkerPlugin\Grid\FieldType\StatusConnectedType
+    arguments:
+      - '@baselinker.service.orders_api'
+    tags:
+        - { name: sylius.grid_field, type: status_connected }
