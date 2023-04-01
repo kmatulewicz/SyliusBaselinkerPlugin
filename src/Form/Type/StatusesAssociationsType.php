@@ -7,9 +7,12 @@ namespace SyliusBaselinkerPlugin\Form\Type;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use SyliusBaselinkerPlugin\Entity\Settings;
 use SyliusBaselinkerPlugin\Service\OrdersApiService;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class StatusesAssociationsType extends AbstractResourceType
 {
@@ -38,8 +41,30 @@ class StatusesAssociationsType extends AbstractResourceType
             }
         }
 
-        $builder->add('shopStatus', TextType::class);
-        $builder->add('baselinkerStatus', ChoiceType::class, ['choices' => $choices]);
+        $disabled = ($setting->getId() === '') ? false : true;
+
+        $builder->add('shopStatus', TextType::class, [
+            'label' => 'baselinker.ui.shop_status',
+            'required' => true,
+            'disabled' => $disabled,
+            'constraints' => [
+                new NotBlank(),
+                new NotNull(),
+            ],
+        ]);
+        $builder->get('shopStatus')->addModelTransformer(new CallbackTransformer(
+            function (string $value): string {
+                return $value;
+            },
+            function (?string $value): string {
+                return $value ?? '';
+            },
+        ), true);
+
+        $builder->add('baselinkerStatus', ChoiceType::class, [
+            'label' => 'baselinker.ui.baselinker_status',
+            'choices' => $choices,
+        ]);
     }
 
     public function getBlockPrefix()

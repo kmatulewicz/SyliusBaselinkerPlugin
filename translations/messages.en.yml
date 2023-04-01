@@ -1,0 +1,15 @@
+baselinker:
+  menu:
+    settings: Settings
+    statuses: Statuses
+  ui:
+    edit_statuses: Edit status association
+    new_statuses: New status
+    edit_settings: Edit settings
+    settings: Baselinker settings
+    statuses: Statuses associations
+    shop_status: Shop status
+    baselinker_status: Baselinker status
+  settings:
+    last.journal.id: Last journal id
+    order.source: Orders source

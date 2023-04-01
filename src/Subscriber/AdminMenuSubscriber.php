@@ -14,7 +14,7 @@ final class AdminMenuSubscriber
 
         $submenu = $menu->addChild('baselinker')->setLabel('Baselinker');
 
-        $submenu->addChild('settings', ['route' => 'baselinker_admin_settings_index'])->setLabel('Settings');
-        $submenu->addChild('statuses', ['route' => 'baselinker_admin_statuses_index'])->setLabel('Statuses');
+        $submenu->addChild('settings', ['route' => 'baselinker_admin_settings_index'])->setLabel('baselinker.menu.settings');
+        $submenu->addChild('statuses', ['route' => 'baselinker_admin_statuses_index'])->setLabel('baselinker.menu.statuses');
     }
 }

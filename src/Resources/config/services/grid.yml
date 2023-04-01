@@ -12,3 +12,11 @@ services:
       - '@baselinker.service.orders_api'
     tags:
         - { name: sylius.grid_field, type: settings }
+
+  baselinker.grid_field.translatable_string:
+    class: SyliusBaselinkerPlugin\Grid\FieldType\TranslatableStringType
+    arguments:
+      - '@translator.data_collector'
+      - '@sylius.grid.data_extractor'
+    tags:
+        - { name: sylius.grid_field, type: translatable_string }

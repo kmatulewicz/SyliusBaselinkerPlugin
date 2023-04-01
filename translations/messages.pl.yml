@@ -1,0 +1,15 @@
+baselinker:
+  menu:
+    settings: Ustawienia
+    statuses: Statusy
+  ui:
+    edit_statuses: Edycja pozwiązania statusu
+    new_statuses: Nowy status
+    edit_settings: Edycja ustawienia
+    settings: Ustawienia Baselinkera
+    statuses: Powiązania statusów
+    shop_status: Status w sklepie
+    baselinker_status: Status w Baselinkerze
+  settings:
+    last.journal.id: Ostatnia pozycja dziennika
+    order.source: Źródło zamówień

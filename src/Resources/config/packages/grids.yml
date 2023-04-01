@@ -7,7 +7,7 @@ sylius_grid:
                     class: SyliusBaselinkerPlugin\Entity\Settings
             fields:
                 name:
-                    type: string
+                    type: translatable_string
                     label: sylius.ui.name
                 value:
                     type: settings

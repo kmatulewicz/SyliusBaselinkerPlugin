@@ -26,7 +26,7 @@ class StatusesAssociations implements ResourceInterface
     #[Column(type: Types::STRING)]
     private string $baselinkerStatus = '';
 
-    public function __construct(string $shopStatus, string $baselinkerStatus = '')
+    public function __construct(string $shopStatus = '', string $baselinkerStatus = '')
     {
         $this->setShopStatus($shopStatus);
         $this->setBaselinkerStatus($baselinkerStatus);

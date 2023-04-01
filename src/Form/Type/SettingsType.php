@@ -39,7 +39,7 @@ class SettingsType extends AbstractResourceType
 
                 break;
             case 'last.journal.id':
-                $builder->add('value', IntegerType::class, ['label' => $optionName, 'constraints' => [
+                $builder->add('value', IntegerType::class, ['label' => 'baselinker.settings.' . $optionName, 'constraints' => [
                     new Type('integer'),
                     new PositiveOrZero(),
                 ]]);
@@ -54,7 +54,7 @@ class SettingsType extends AbstractResourceType
 
                 break;
             default:
-                $builder->add('value', TextType::class, ['label' => $optionName]);
+                $builder->add('value', TextType::class, ['label' => 'baselinker.settings.' . $optionName]);
         }
     }
 
@@ -73,6 +73,6 @@ class SettingsType extends AbstractResourceType
             $flippedSources[$key] = array_flip($sourceCategory);
         }
 
-        $builder->add('value', ChoiceType::class, ['label' => $optionName, 'choices' => $flippedSources]);
+        $builder->add('value', ChoiceType::class, ['label' => 'baselinker.settings.' . $optionName, 'choices' => $flippedSources]);
     }
 }
