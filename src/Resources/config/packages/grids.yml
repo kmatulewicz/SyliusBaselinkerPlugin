@@ -10,7 +10,7 @@ sylius_grid:
                     type: string
                     label: sylius.ui.name
                 value:
-                    type: string
+                    type: settings
                     label: sylius.ui.value
             actions:
                 item:

@@ -5,3 +5,10 @@ services:
       - '@baselinker.service.orders_api'
     tags:
         - { name: sylius.grid_field, type: status_connected }
+
+  baselinker.grid_field.settings:
+    class: SyliusBaselinkerPlugin\Grid\FieldType\SettingsType
+    arguments:
+      - '@baselinker.service.orders_api'
+    tags:
+        - { name: sylius.grid_field, type: settings }
