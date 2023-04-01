@@ -79,7 +79,7 @@ class OrdersSyncCommand extends Command
         /** @todo update order on Sylius */
         /** @var Settings|null $lastJournalIdSetting */
         $lastJournalIdSetting = $this->entityManager->getRepository(Settings::class)->find('last.journal.id');
-        $lastJournalId = $lastJournalIdSetting ?  (int) $lastJournalIdSetting->getValue() : 0;
+        $lastJournalId = is_object($lastJournalIdSetting) ? (int) $lastJournalIdSetting->getValue() : 0;
         $journal = $this->orderApi->getJournalList($lastJournalId, [18]);
 
         /** @var array<string, int> $entry */

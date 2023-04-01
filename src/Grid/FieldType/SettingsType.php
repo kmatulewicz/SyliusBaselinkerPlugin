@@ -16,9 +16,10 @@ class SettingsType implements FieldTypeInterface
     public function __construct(OrdersApiService $ordersApi)
     {
         $rawSources = $ordersApi->getOrderSources();
+        /** @var array $value */
         foreach ($rawSources as $value) {
             $this->sources = $this->sources + $value;
-        };
+        }
     }
 
     public function render(Field $field, $data, array $options = []): string
@@ -33,6 +34,7 @@ class SettingsType implements FieldTypeInterface
 
             return htmlspecialchars($r);
         }
+
         return htmlspecialchars($data->getValue());
     }
 
