@@ -39,6 +39,6 @@ class TranslatableStringType implements FieldTypeInterface
 
     public function getName(): string
     {
-        return 'status_connected';
+        return 'translatable_string';
     }
 }
