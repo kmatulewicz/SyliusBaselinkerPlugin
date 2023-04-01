@@ -79,7 +79,13 @@ class OrdersSyncCommand extends Command
         /** @todo update order on Sylius */
         /** @var Settings|null $lastJournalIdSetting */
         $lastJournalIdSetting = $this->entityManager->getRepository(Settings::class)->find('last.journal.id');
-        $lastJournalId = is_object($lastJournalIdSetting) ? (int) $lastJournalIdSetting->getValue() : 0;
+        $lastJournalId = 0;
+        if (is_object($lastJournalIdSetting)) {
+            $lastJournalId = (int) $lastJournalIdSetting->getValue();
+        } else {
+            $lastJournalIdSetting = new Settings('last.journal.id');
+        }
+
         $journal = $this->orderApi->getJournalList($lastJournalId, [18]);
 
         /** @var array<string, int> $entry */
@@ -100,6 +106,10 @@ class OrdersSyncCommand extends Command
             $output->writeln('updated ');
 
             $order->setBaselinkerUpdateTime(time());
+
+            $lastJournalIdSetting->setValue((string) $entry['log_id']);
+
+            $this->entityManager->persist($lastJournalIdSetting);
             $this->entityManager->persist($order);
             $this->entityManager->flush();
         }
