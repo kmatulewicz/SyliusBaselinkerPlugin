@@ -56,7 +56,7 @@ class OrderDataProvider implements OrderDataProviderInterface
     public function custom_source_id(): int
     {
         /** @var Settings|null $orderSource */
-        $orderSource = $this->entityManager->find(Settings::class, 'orderSource');
+        $orderSource = $this->entityManager->find(Settings::class, 'order.source');
 
         return (null === $orderSource) ? 0 : (int) $orderSource->getValue();
     }

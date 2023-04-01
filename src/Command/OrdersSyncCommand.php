@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
+use SyliusBaselinkerPlugin\Entity\Settings;
 use SyliusBaselinkerPlugin\Service\OrdersApiServiceInterface;
 use SyliusBaselinkerPlugin\Service\OrderStatusApplierInterface;
 use Symfony\Component\Console\Command\Command;
@@ -76,7 +77,10 @@ class OrdersSyncCommand extends Command
 
         /** @todo update existing order on Baselinker */
         /** @todo update order on Sylius */
-        $journal = $this->orderApi->getJournalList(0, [18]);
+        /** @var Settings|null $lastJournalIdSetting */
+        $lastJournalIdSetting = $this->entityManager->getRepository(Settings::class)->find('last.journal.id');
+        $lastJournalId = $lastJournalIdSetting ?  (int) $lastJournalIdSetting->getValue() : 0;
+        $journal = $this->orderApi->getJournalList($lastJournalId, [18]);
 
         /** @var array<string, int> $entry */
         foreach ($journal as $entry) {
