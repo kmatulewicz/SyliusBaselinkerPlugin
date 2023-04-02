@@ -72,10 +72,33 @@ class OrdersSyncCommand extends Command
                     :
                     'Order ' . (string) $order->getId() . ' ' . $exception->getMessage();
                 $output->writeln($message);
+            } else {
+                //updated order
+
+                //payment
+                $isPaid = ('paid' === $order->getPaymentState()) ? true : false;
+                $payment = $order->getLastPayment();
+                $paymentTime = (null === $payment) ? null : $payment->getUpdatedAt();
+                $paymentTimestamp = (null === $paymentTime) ? 0 : $paymentTime->getTimestamp();
+
+                if ($isPaid && ($paymentTimestamp > $order->getBaselinkerUpdateTime())) {
+                    try {
+                        $this->orderApi->setOrderPayment($order);
+                        $order->setBaselinkerUpdateTime(time());
+                        $this->entityManager->persist($order);
+                        $this->entityManager->flush();
+                    } catch (Exception $e) {
+                        $exception = $e;
+                    }
+                    $message = (null === $exception) ?
+                        'Order ' . (string) $order->getId() . ' successfully updated on Baselinker'
+                        :
+                        'Order ' . (string) $order->getId() . ' ' . $exception->getMessage();
+                    $output->writeln($message);
+                }
             }
         }
 
-        /** @todo update existing order on Baselinker */
         /** @todo update order on Sylius */
         /** @var Settings|null $lastJournalIdSetting */
         $lastJournalIdSetting = $this->entityManager->getRepository(Settings::class)->find('last.journal.id');

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Serializer;
 
 use Sylius\Component\Core\Model\AdjustmentInterface;
-use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use SyliusBaselinkerPlugin\DataProvider\OrderDataProviderInterface;
 use SyliusBaselinkerPlugin\DataProvider\OrderItemDataProviderInterface;
+use SyliusBaselinkerPlugin\DataProvider\PaymentDataProviderInterface;
+use SyliusBaselinkerPlugin\Entity\OrderInterface;
 
 class OrderSerializer implements OrderSerializerInterface
 {
@@ -16,12 +17,16 @@ class OrderSerializer implements OrderSerializerInterface
 
     private OrderItemDataProviderInterface $orderItemDataProvider;
 
+    private PaymentDataProviderInterface $paymentDataProvider;
+
     public function __construct(
         OrderDataProviderInterface $orderDataProvider,
         OrderItemDataProviderInterface $orderItemDataProvider,
+        PaymentDataProviderInterface $paymentDataProvider,
     ) {
         $this->orderDataProvider = $orderDataProvider;
         $this->orderItemDataProvider = $orderItemDataProvider;
+        $this->paymentDataProvider = $paymentDataProvider;
     }
 
     public function serializeOrder(OrderInterface $order): array
@@ -119,6 +124,24 @@ class OrderSerializer implements OrderSerializerInterface
         $combinedArray['products'] = $products;
 
         return $combinedArray;
+    }
+
+    public function serializePayment(OrderInterface $order): array
+    {
+        $dataKeys = [
+            'order_id',
+            'payment_done',
+            'payment_date',
+            'payment_comment',
+            'external_payment_id',
+        ];
+
+        $this->paymentDataProvider->setOrder($order);
+        $dataValues = array_map(function ($name): mixed {
+            return call_user_func_array([$this->paymentDataProvider, $name], []);
+        }, $dataKeys);
+
+        return array_combine($dataKeys, $dataValues);
     }
 
     protected function serializeOrderItem(OrderItemInterface $orderItem): array

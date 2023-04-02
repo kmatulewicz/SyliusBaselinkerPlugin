@@ -8,3 +8,6 @@ services:
         class: SyliusBaselinkerPlugin\DataProvider\OrderItemDataProvider
         arguments:
             - "@sylius.tax_rate_resolver"
+
+    baselinker.data_provider.payment:
+        class: SyliusBaselinkerPlugin\DataProvider\PaymentDataProvider

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SyliusBaselinkerPlugin\Service;
 
 use Exception;
-use Sylius\Component\Core\Model\OrderInterface;
+use SyliusBaselinkerPlugin\Entity\OrderInterface;
 use SyliusBaselinkerPlugin\Serializer\OrderSerializerInterface;
 
 class OrdersApiService implements OrdersApiServiceInterface
@@ -95,6 +95,12 @@ class OrdersApiService implements OrdersApiServiceInterface
         }
 
         return (int) $response['order_id'];
+    }
+
+    public function setOrderPayment(OrderInterface $order): void
+    {
+        $serializedPayment = $this->serializer->serializePayment($order);
+        $this->apiRequest->do(__FUNCTION__, $serializedPayment);
     }
 
     private function isValidJournalEntry(array $entry, array $types = self::ALL_LOGS_TYPES): bool

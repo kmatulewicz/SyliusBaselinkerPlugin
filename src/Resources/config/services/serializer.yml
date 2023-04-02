@@ -5,3 +5,4 @@ services:
     arguments:
       - "@baselinker.data_provider.order"
       - "@baselinker.data_provider.order_item"
+      - "@baselinker.data_provider.payment"

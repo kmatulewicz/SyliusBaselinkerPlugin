@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Service;
 
-use Sylius\Component\Core\Model\OrderInterface;
+use SyliusBaselinkerPlugin\Entity\OrderInterface;
 
 interface OrdersApiServiceInterface
 {
@@ -19,4 +19,6 @@ interface OrdersApiServiceInterface
     public function getOrderStatusList(): array;
 
     public function addOrder(OrderInterface $order): int;
+
+    public function setOrderPayment(OrderInterface $order): void;
 }
