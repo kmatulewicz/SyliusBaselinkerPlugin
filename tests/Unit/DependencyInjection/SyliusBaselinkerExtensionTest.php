@@ -38,7 +38,7 @@ final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
             $doctrineMigrationsExtensionConfig[0]['migrations_paths']
         );
         self::assertSame(
-            '@SyliusBaselinkerPlugin/src/Migration',
+            '@SyliusBaselinkerPlugin/Migration',
             $doctrineMigrationsExtensionConfig[0]['migrations_paths']['SyliusBaselinkerPlugin\Migration']
         );
 
