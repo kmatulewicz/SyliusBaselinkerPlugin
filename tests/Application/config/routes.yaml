@@ -1,3 +1,2 @@
 baselinker_admin:
-    resource: "@SyliusBaselinkerPlugin/src/Resources/config/admin_routing.yml"
-    prefix: /admin
+    resource: "@SyliusBaselinkerPlugin/src/Resources/config/routing.yml"
