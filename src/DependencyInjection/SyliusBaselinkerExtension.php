@@ -55,7 +55,7 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
 
     protected function getMigrationsDirectory(): string
     {
-        return '@SyliusBaselinkerPlugin/src/Migration';
+        return '@SyliusBaselinkerPlugin/Migration';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
