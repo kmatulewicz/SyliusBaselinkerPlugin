@@ -7,22 +7,18 @@ How to test plugin
 ===================
 The fastest method to run dev environment is to use docker:
 
-    ```bash
     docker compose up -d
     docker compose exec app make init
-    ```
 
 Change `BL_TOKEN` in `tests/Application/.env`.
 Now you can set plugin in admin panel on your localhost: `http://localhost/admin`, login is `sylius`, password is the same as login. You can run sync command:
 
-    ```bash
     docker compose exec app make symfony baselinker:order:sync
-    ```
+
 or tests:
 
-    ```bash
     docker compose exec app make test
-    ```
+
 
 Installation
 =============
