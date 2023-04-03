@@ -1,4 +1,4 @@
 imports:
-  - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/baselinker.yml" }
-  - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/resources.yml" }
-  - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/packages/grids.yml" }
+  - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/baselinker.yml" }
+  - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/resources.yml" }
+  - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/grids.yml" }

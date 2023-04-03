@@ -1,2 +1,5 @@
-imports:
-    - { resource: "routing/*.yml" }
+baselinker_admin:
+  resource: "routing/admin_routing.yml"
+
+baselinker_shop:
+  resource: "routing/shop_routing.yml"

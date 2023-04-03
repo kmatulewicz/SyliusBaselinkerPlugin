@@ -1,2 +1,2 @@
-baselinker_admin:
-    resource: "@SyliusBaselinkerPlugin/src/Resources/config/routing.yml"
+baselinker:
+    resource: "@SyliusBaselinkerPlugin/Resources/config/routing.yml"

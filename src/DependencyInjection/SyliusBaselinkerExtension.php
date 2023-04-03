@@ -79,7 +79,7 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
                 'mappings' => [
                     'SyliusBaselinkerPlugin' => [
                         'type' => 'attribute',
-                        'dir' => $this->getPath($container, '/src/Entity'),
+                        'dir' => $this->getPath($container, '/Entity'),
                         'is_bundle' => false,
                         'prefix' => 'SyliusBaselinkerPlugin\Entity',
                         'alias' => 'SyliusBaselinkerPlugin',
