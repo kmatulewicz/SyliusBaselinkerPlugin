@@ -21,11 +21,12 @@ services:
         platform: linux/amd64
         environment:
             MYSQL_ROOT_PASSWORD: mysql
-            MYSQL_DATABASE: sylius_test
         ports:
             - ${MYSQL_PORT:-3306}:3306
         networks:
             - sylius
+        volumes:
+            - ./.docker/initdb/:/docker-entrypoint-initdb.d/
 
 networks:
     sylius:
