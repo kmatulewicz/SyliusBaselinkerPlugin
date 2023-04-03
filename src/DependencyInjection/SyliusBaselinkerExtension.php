@@ -45,6 +45,7 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
         $this->registerResources('baselinker_plugin', 'doctrine/orm', $config['resources'], $container);
 
         $this->prependDoctrineMigrations($container);
+        $this->prependDoctrineMapping($container);
     }
 
     protected function getMigrationsNamespace(): string
@@ -64,6 +65,30 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
         ];
     }
 
+    private function prependDoctrineMapping(ContainerBuilder $container): void
+    {
+        $config = array_merge(...$container->getExtensionConfig('doctrine'));
+
+        // do not register mappings if dbal not configured.
+        if (!isset($config['dbal']) || !isset($config['orm'])) {
+            return;
+        }
+
+        $container->prependExtensionConfig('doctrine', [
+            'orm' => [
+                'mappings' => [
+                    'SyliusBaselinkerPlugin' => [
+                        'type' => 'attribute',
+                        'dir' => $this->getPath($container, '/src/Entity'),
+                        'is_bundle' => false,
+                        'prefix' => 'SyliusBaselinkerPlugin\Entity',
+                        'alias' => 'SyliusBaselinkerPlugin',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     private function getCurrentConfiguration(ContainerBuilder $container): array
     {
         /** @var ConfigurationInterface $configuration */
@@ -72,5 +97,13 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
         $configs = $container->getExtensionConfig($this->getAlias());
 
         return $this->processConfiguration($configuration, $configs);
+    }
+
+    private function getPath(ContainerBuilder $container, string $path): string
+    {
+        /** @var array<string, array<string, string>> $metadata */
+        $metadata = $container->getParameter('kernel.bundles_metadata');
+
+        return $metadata['SyliusBaselinkerPlugin']['path'] . $path;
     }
 }
