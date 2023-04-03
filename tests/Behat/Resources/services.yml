@@ -1,5 +1,5 @@
 imports:
-  - { resource: "@SyliusBaselinkerPlugin/src/Resources/config/services.yml" }
+  - { resource: "@SyliusBaselinkerPlugin/Resources/config/services.yml" }
 
 services:
   baselinker.test.test:
