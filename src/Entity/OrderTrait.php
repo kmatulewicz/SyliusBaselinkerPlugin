@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 
 trait OrderTrait
 {
     /** @Column(name="baselinker_id", type="integer", options={"default":0}) */
+    #[Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $baselinkerId = 0;
 
     /** @Column(name="baselinker_update_time", type="integer", options={"default":0}) */
+    #[Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $baselinkerUpdateTime = 0;
 
     public function getBaselinkerId(): int
