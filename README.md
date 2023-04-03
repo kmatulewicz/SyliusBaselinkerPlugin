@@ -3,25 +3,29 @@
 
 <p align="center">This plugin is work in progress, do not use this plugin to other purpose then testing, especially do not use this plugin in production environment.</p>
 
-⚙️ How to test plugin
-====================
+How to test plugin
+===================
 Fastest method to run dev environment is to use docker:
+
     ```bash
     docker compose up -d
     docker compose exec app make init
     ```
+
 Change `BL_TOKEN` in `tests/Application/.env`.
 Now you can set plugin in amin panel on your localhost: `http://localhost/admin`, login is `sylius`, password is the same as login. You can run sync command:
+
     ```bash
     docker compose exec app make symfony baselinker:order:sync
     ```
 or tests:
+
     ```bash
     docker compose exec app make test
     ```
 
-⚙️ Installation
-===============
+Installation
+=============
 The plugin can be installed in an existing or new sylius-standard application.
 
 1. Run:
@@ -84,8 +88,8 @@ The plugin can be installed in an existing or new sylius-standard application.
 
 9. Go to admin panel and set order source and statuses associations on Baselinker section.
 
-⚙️ Usage
-========
+Usage
+======
 
 This plugin provides a command `baselinker:order:sync`. The command will:
 1. Create orders in baselinker from shop orders that were not synchronized yet.
