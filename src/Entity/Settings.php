@@ -18,12 +18,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
 class Settings implements ResourceInterface
 {
     #[Id]
-    #[Column(type: Types::STRING)]
+    #[Column(name: 'name', type: Types::STRING)]
     #[NotNull]
     #[GeneratedValue('NONE')]
     private string $name;
 
-    #[Column(type: Types::STRING)]
+    #[Column(name: 'value', type: Types::STRING)]
     private string $value = '';
 
     public function __construct(string $name, string $value = '')

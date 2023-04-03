@@ -18,12 +18,12 @@ use Symfony\Component\Validator\Constraints\NotNull;
 class StatusesAssociations implements ResourceInterface
 {
     #[Id]
-    #[Column(type: Types::STRING)]
+    #[Column(name: 'shop_status', type: Types::STRING)]
     #[NotNull]
     #[GeneratedValue('NONE')]
     private string $shopStatus = '';
 
-    #[Column(type: Types::STRING)]
+    #[Column(name: 'baselinker_status', type: Types::STRING)]
     private string $baselinkerStatus = '';
 
     public function __construct(string $shopStatus = '', string $baselinkerStatus = '')
