@@ -87,7 +87,7 @@ The plugin can be installed in an existing or new sylius-standard application.
 Usage
 ======
 
-This plugin provides a command `baselinker:order:sync`. The command will:
-1. Create orders in baselinker from shop orders that were not synchronized yet.
-2. Add payments to the corresponding baselinker orders if there were new payments in synchronized shop orders.
-3. Change statuses of shop orders if status of corresponding baselinker order was changed since last synchronization.
+This plugin provides commands:
+1. `baselinker:orders:add` Adds not synchronized shop orders to Baselinker.
+2. `baselinker:orders:payments` Adds to Baselinker payments done in shop after last synchronization.
+3. `baselinker:orders:statuses` Checks for status changes of synchronized orders. Applies shop order status change to corresponding Baselinker status.

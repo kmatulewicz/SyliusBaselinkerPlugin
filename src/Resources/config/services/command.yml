@@ -4,8 +4,24 @@ services:
     arguments:
     tags: ["console.command"]
 
-  baselinker.command.order.sync:
-    class: SyliusBaselinkerPlugin\Command\OrdersSyncCommand
+  baselinker.command.orders.add:
+    class: SyliusBaselinkerPlugin\Command\OrdersAddCommand
+    arguments:
+      - "@sylius.repository.order"
+      - "@baselinker.service.orders_api"
+      - "@doctrine.orm.default_entity_manager"
+    tags: ["console.command"]
+
+  baselinker.command.orders.payments:
+    class: SyliusBaselinkerPlugin\Command\OrdersPaymentsCommand
+    arguments:
+      - "@sylius.repository.order"
+      - "@baselinker.service.orders_api"
+      - "@doctrine.orm.default_entity_manager"
+    tags: ["console.command"]
+
+  baselinker.command.orders.statuses:
+    class: SyliusBaselinkerPlugin\Command\OrdersStatusCommand
     arguments:
       - "@sylius.repository.order"
       - "@baselinker.service.orders_api"
