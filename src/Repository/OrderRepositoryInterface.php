@@ -11,4 +11,6 @@ interface OrderRepositoryInterface
     public function find(int $id): ?OrderInterface;
 
     public function findNewOrdersToAdd(): array;
+
+    public function findOrdersForUpdate(): array;
 }

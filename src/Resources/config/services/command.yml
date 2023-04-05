@@ -15,7 +15,7 @@ services:
   baselinker.command.orders.payments:
     class: SyliusBaselinkerPlugin\Command\OrdersPaymentsCommand
     arguments:
-      - "@sylius.repository.order"
+      - "@baselinker.repository.order"
       - "@baselinker.service.orders_api"
       - "@doctrine.orm.default_entity_manager"
     tags: ["console.command"]

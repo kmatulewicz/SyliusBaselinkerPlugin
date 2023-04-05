@@ -30,10 +30,28 @@ class OrderRepository implements OrderRepositoryInterface
         $qb
             ->select('o')
             ->where('o.state != :state')
-            ->andWhere('o.baselinkerId != 0')
+            ->andWhere('o.baselinkerId = 0')
             ->setParameter('state', OrderInterface::STATE_CART)
         ;
+        /** @var array<int, OrderInterface> $result */
+        $result = $qb->getQuery()->getResult();
 
-        return $qb->getQuery()->getArrayResult();
+        return $result;
+    }
+
+    public function findOrdersForUpdate(): array
+    {
+        $qb = $this->baseRepository->createQueryBuilder('o');
+        $qb
+            ->select('o')
+            ->where('o.state != :state')
+            ->andWhere('o.baselinkerId != 0')
+            ->andWhere('o.baselinkerUpdateTime < o.updatedAt')
+            ->setParameter('state', OrderInterface::STATE_CART)
+        ;
+        /** @var array<int, OrderInterface> $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 }

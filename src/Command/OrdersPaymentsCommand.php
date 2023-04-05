@@ -6,8 +6,8 @@ namespace SyliusBaselinkerPlugin\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
+use SyliusBaselinkerPlugin\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Service\OrdersApiServiceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,44 +43,37 @@ class OrdersPaymentsCommand extends Command
     {
         /** @todo: Log */
         /** @todo: --quiet */
-        /** @todo: Custom query */
         /** @todo: Rethink consistency: payment -> status change on Baselinker -> status change in shop */
-        $orders = $this->orderRepository->findAllExceptCarts();
+        $orders = $this->orderRepository->findOrdersForUpdate();
         $output->writeln('Adding payments to Baselinker:');
 
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
-            if (false === $this->isOrderApplicableForSync($order)) {
-                continue;
-            }
+            $isPaid = ('paid' === $order->getPaymentState()) ? true : false;
+            $payment = $order->getLastPayment();
+            $paymentTime = (null === $payment) ? null : $payment->getUpdatedAt();
+            $paymentTimestamp = (null === $paymentTime) ? 0 : $paymentTime->getTimestamp();
+            if ($isPaid && ($paymentTimestamp > $order->getBaselinkerUpdateTime())) {
+                $exception = null;
 
-            $exception = null;
-            if (0 !== $order->getBaselinkerId()) {
-                $isPaid = ('paid' === $order->getPaymentState()) ? true : false;
-                $payment = $order->getLastPayment();
-                $paymentTime = (null === $payment) ? null : $payment->getUpdatedAt();
-                $paymentTimestamp = (null === $paymentTime) ? 0 : $paymentTime->getTimestamp();
+                try {
+                    $this->orderApi->setOrderPayment($order);
+                    $order->setBaselinkerUpdateTime(time());
+                    $this->entityManager->persist($order);
+                    $this->entityManager->flush();
+                } catch (Exception $e) {
+                    $exception = $e;
+                } finally {
+                    if (null === $exception) {
+                        $message = 'Payment for order ' . (string) $order->getId() .
+                            ' successfully exported to Baselinker';
+                        $output->writeln($message);
+                    } else {
+                        $message = 'Payment for order ' . (string) $order->getId() . ' ' . $exception->getMessage();
+                        $output->writeln($message);
+                        $output->writeln('Aborting');
 
-                if ($isPaid && ($paymentTimestamp > $order->getBaselinkerUpdateTime())) {
-                    try {
-                        $this->orderApi->setOrderPayment($order);
-                        $order->setBaselinkerUpdateTime(time());
-                        $this->entityManager->persist($order);
-                        $this->entityManager->flush();
-                    } catch (Exception $e) {
-                        $exception = $e;
-                    } finally {
-                        if (null === $exception) {
-                            $message = 'Payment for order ' . (string) $order->getId() .
-                                ' successfully exported to Baselinker';
-                            $output->writeln($message);
-                        } else {
-                            $message = 'Payment for order ' . (string) $order->getId() . ' ' . $exception->getMessage();
-                            $output->writeln($message);
-                            $output->writeln('Aborting');
-
-                            return Command::FAILURE;
-                        }
+                        return Command::FAILURE;
                     }
                 }
             }
@@ -88,18 +81,5 @@ class OrdersPaymentsCommand extends Command
         $output->writeln('Done');
 
         return Command::SUCCESS;
-    }
-
-    private function isOrderApplicableForSync(OrderInterface $order): bool
-    {
-        $orderUpdatedAt = $order->getUpdatedAt();
-        if (null === $orderUpdatedAt) {
-            return false;
-        }
-        if ($order->getBaselinkerUpdateTime() > $orderUpdatedAt->getTimestamp()) {
-            return false;
-        }
-
-        return true;
     }
 }
