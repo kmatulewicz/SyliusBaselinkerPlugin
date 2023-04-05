@@ -7,7 +7,7 @@ services:
   baselinker.command.orders.add:
     class: SyliusBaselinkerPlugin\Command\OrdersAddCommand
     arguments:
-      - "@sylius.repository.order"
+      - "@baselinker.repository.order"
       - "@baselinker.service.orders_api"
       - "@doctrine.orm.default_entity_manager"
     tags: ["console.command"]

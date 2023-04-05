@@ -1,0 +1,5 @@
+services:
+  baselinker.repository.order:
+    class: SyliusBaselinkerPlugin\Repository\OrderRepository
+    arguments:
+      - "@sylius.repository.order"

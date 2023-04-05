@@ -6,8 +6,8 @@ namespace SyliusBaselinkerPlugin\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
+use SyliusBaselinkerPlugin\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Service\OrdersApiServiceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,57 +43,38 @@ class OrdersAddCommand extends Command
     {
         /** @todo: Log */
         /** @todo: --quiet */
-        /** @todo: Custom query */
-        $orders = $this->orderRepository->findAllExceptCarts();
+        $orders = $this->orderRepository->findNewOrdersToAdd();
         $output->writeln('Adding orders to Baselinker:');
 
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
-            if (false === $this->isOrderApplicableForSync($order)) {
-                continue;
-            }
-
             $exception = null;
-            if (0 === $order->getBaselinkerId()) {
-                try {
-                    $baselinkerId = $this->orderApi->addOrder($order);
-                    $order->setBaselinkerId($baselinkerId);
-                    $order->setBaselinkerUpdateTime(time());
-                    $this->entityManager->persist($order);
-                    $this->entityManager->flush();
-                } catch (Exception $e) {
-                    $exception = $e;
-                } finally {
-                    if (null === $exception) {
-                        $message = 'Order ' . (string) $order->getId() .
-                            ' successfully exported to Baselinker on id: ' .
-                            $order->getBaselinkerId();
-                        $output->writeln($message);
-                    } else {
-                        $message = 'Order ' . (string) $order->getId() . ' ' . $exception->getMessage();
-                        $output->writeln($message);
-                        $output->writeln('Aborting');
 
-                        return Command::FAILURE;
-                    }
+            try {
+                $baselinkerId = $this->orderApi->addOrder($order);
+                $order->setBaselinkerId($baselinkerId);
+                $order->setBaselinkerUpdateTime(time());
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+            } catch (Exception $e) {
+                $exception = $e;
+            } finally {
+                if (null === $exception) {
+                    $message = 'Order ' . (string) $order->getId() .
+                        ' successfully exported to Baselinker on id: ' .
+                        $order->getBaselinkerId();
+                    $output->writeln($message);
+                } else {
+                    $message = 'Order ' . (string) $order->getId() . ' ' . $exception->getMessage();
+                    $output->writeln($message);
+                    $output->writeln('Aborting');
+
+                    return Command::FAILURE;
                 }
             }
         }
         $output->writeln('Done');
 
         return Command::SUCCESS;
-    }
-
-    private function isOrderApplicableForSync(OrderInterface $order): bool
-    {
-        $orderUpdatedAt = $order->getUpdatedAt();
-        if (null === $orderUpdatedAt) {
-            return false;
-        }
-        if ($order->getBaselinkerUpdateTime() > $orderUpdatedAt->getTimestamp()) {
-            return false;
-        }
-
-        return true;
     }
 }
