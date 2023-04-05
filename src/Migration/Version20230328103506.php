@@ -22,7 +22,7 @@ final class Version20230328103506 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE baselinker_settings (name VARCHAR(255) NOT NULL, value VARCHAR(255) NOT NULL, PRIMARY KEY(name)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE baselinker_statuses_associations (shop_status VARCHAR(255) NOT NULL, baselinker_status VARCHAR(255) NOT NULL, PRIMARY KEY(shop_status)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE sylius_order ADD baselinker_id INT DEFAULT 0 NOT NULL, ADD baselinker_update_time INT DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE sylius_order ADD baselinker_id INT DEFAULT 0 NOT NULL, ADD baselinker_update_time DATETIME DEFAULT NULL');
         $this->addSql('INSERT INTO baselinker_settings(name, value) VALUES("order.source", "0")');
         $this->addSql('INSERT INTO baselinker_settings(name, value) VALUES("last.journal.id", "0")');
         $this->addSql('INSERT INTO baselinker_statuses_associations(shop_status, baselinker_status) VALUES("new", "")');
