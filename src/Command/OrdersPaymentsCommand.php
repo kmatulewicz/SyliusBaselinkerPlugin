@@ -6,6 +6,7 @@ namespace SyliusBaselinkerPlugin\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Psr\Log\LoggerInterface;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
 use SyliusBaselinkerPlugin\Repository\OrderRepositoryInterface;
 use SyliusBaselinkerPlugin\Service\OrdersApiServiceInterface;
@@ -21,14 +22,19 @@ class OrdersPaymentsCommand extends Command
 
     private EntityManagerInterface $entityManager;
 
+    private LoggerInterface $logger;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         OrdersApiServiceInterface $orderApi,
         EntityManagerInterface $entityManager,
+        LoggerInterface $logger,
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderApi = $orderApi;
         $this->entityManager = $entityManager;
+        $this->logger = $logger;
+
 
         parent::__construct();
     }
@@ -41,10 +47,11 @@ class OrdersPaymentsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @todo: Log */
         /** @todo: --quiet */
         /** @todo: Rethink consistency: payment -> status change on Baselinker -> status change in shop */
+        $this->logger->debug('Command baselinker:orders:payments executed.');
         $orders = $this->orderRepository->findOrdersForUpdate();
+        $this->logger->debug(sprintf('Selecting %d orders to check for new payments.', count($orders)));
         $output->writeln('Adding payments to Baselinker:');
 
         /** @var OrderInterface $order */
@@ -67,15 +74,19 @@ class OrdersPaymentsCommand extends Command
                     if (null === $exception) {
                         $message = 'Payment for order ' . (string) $order->getId() .
                             ' successfully exported to Baselinker';
+                        $this->logger->debug($message);
                         $output->writeln($message);
                     } else {
                         $message = 'Payment for order ' . (string) $order->getId() . ' ' . $exception->getMessage();
+                        $this->logger->error($message);
                         $output->writeln($message);
                         $output->writeln('Aborting');
 
                         return Command::FAILURE;
                     }
                 }
+            } else {
+                $this->logger->debug(sprintf('Order %d omitted.', $order->getId()));
             }
         }
         $output->writeln('Done');
