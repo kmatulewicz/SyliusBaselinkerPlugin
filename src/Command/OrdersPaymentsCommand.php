@@ -35,7 +35,6 @@ class OrdersPaymentsCommand extends Command
         $this->entityManager = $entityManager;
         $this->logger = $logger;
 
-
         parent::__construct();
     }
 
@@ -86,7 +85,7 @@ class OrdersPaymentsCommand extends Command
                     }
                 }
             } else {
-                $this->logger->debug(sprintf('Order %d omitted.', $order->getId()));
+                $this->logger->debug(sprintf('Order %d omitted.', (int) $order->getId()));
             }
         }
         $output->writeln('Done');
