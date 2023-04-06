@@ -11,9 +11,12 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 #[Entity]
+#[UniqueEntity(fields: 'shopStatus')]
+#[UniqueEntity(fields: 'baselinkerStatus')]
 #[Table('baselinker_statuses_associations')]
 class StatusesAssociations implements ResourceInterface
 {
