@@ -2,3 +2,12 @@ imports:
   - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/baselinker.yml" }
   - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/resources.yml" }
   - { resource: "@SyliusBaselinkerPlugin/Resources/config/packages/grids.yml" }
+
+monolog:
+    channels: ['baselinker']
+    handlers:
+        baselinker:
+            level: debug
+            type: stream
+            path: '%kernel.logs_dir%/baselinker.log'
+            channels: [baselinker]

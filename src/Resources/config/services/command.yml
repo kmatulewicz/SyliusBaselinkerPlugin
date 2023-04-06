@@ -10,6 +10,7 @@ services:
       - "@baselinker.repository.order"
       - "@baselinker.service.orders_api"
       - "@doctrine.orm.default_entity_manager"
+      - "@monolog.logger.baselinker"
     tags: ["console.command"]
 
   baselinker.command.orders.payments:
