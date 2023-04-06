@@ -11,9 +11,11 @@ The fastest method to run dev environment is to use docker:
     docker compose exec app make init
 
 Change `BL_TOKEN` in `tests/Application/.env`.
-Now you can set plugin in admin panel on your localhost: `http://localhost/admin`, login is `sylius`, password is the same as login. You can run sync command:
+Now you can set plugin in admin panel on your localhost: `http://localhost/admin`, login is `sylius`, password is the same as login. You can run sync commands:
 
-    docker compose exec app make symfony baselinker:order:sync
+    docker compose exec app make symfony baselinker:orders:add
+    docker compose exec app make symfony baselinker:orders:payments
+    docker compose exec app make symfony baselinker:orders:statuses
 
 or tests:
 
