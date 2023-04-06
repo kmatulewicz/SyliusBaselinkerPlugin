@@ -29,4 +29,5 @@ services:
       - "@baselinker.service.orders_api"
       - "@doctrine.orm.default_entity_manager"
       - "@baselinker.service.order_status_applier"
+      - "@monolog.logger.baselinker"
     tags: ["console.command"]
