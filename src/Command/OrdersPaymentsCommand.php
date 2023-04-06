@@ -79,9 +79,6 @@ class OrdersPaymentsCommand extends Command
                         $message = 'Payment for order ' . (string) $order->getId() . ' ' . $exception->getMessage();
                         $this->logger->error($message);
                         $output->writeln($message);
-                        $output->writeln('Aborting');
-
-                        return Command::FAILURE;
                     }
                 }
             } else {
