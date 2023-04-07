@@ -32,11 +32,17 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
         $url = (string) $config['url'];
         $method = (string) $config['method'];
         $on_delete = (string) $config['on_delete'];
+        $days_to_sync = (string) $config['days_to_sync'];
+        $max_orders_add = (string) $config['max_orders_add'];
+        $max_orders_payments = (string) $config['max_orders_payments'];
 
         $container->setParameter('sylius.baselinker_token', $token);
         $container->setParameter('sylius.baselinker_url', $url);
         $container->setParameter('sylius.baselinker_method', $method);
         $container->setParameter('sylius.baselinker_on_delete', $on_delete);
+        $container->setParameter('sylius.baselinker_days_to_sync', $days_to_sync);
+        $container->setParameter('sylius.baselinker_max_orders_add', $max_orders_add);
+        $container->setParameter('sylius.baselinker_max_orders_payments', $max_orders_payments);
 
         $this->processConfiguration($configuration, $configs);
     }

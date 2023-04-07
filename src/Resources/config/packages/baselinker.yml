@@ -7,3 +7,6 @@ sylius_baselinker:
     # unsync - permanently disable synchronization
     # cancel - try to cancel
     on_delete: unsync
+    days_to_sync: 14
+    max_orders_add: 40
+    max_orders_payments: 40

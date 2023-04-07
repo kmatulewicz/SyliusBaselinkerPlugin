@@ -47,7 +47,6 @@ class OrdersPaymentsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @todo: --quiet */
-        /** @todo: Rethink consistency: payment -> status change on Baselinker -> status change in shop */
         $this->logger->debug('Command baselinker:orders:payments executed.');
         $orders = $this->orderRepository->findOrdersForUpdate();
         $this->logger->debug(sprintf('Selecting %d orders to check for new payments.', count($orders)));
@@ -55,11 +54,8 @@ class OrdersPaymentsCommand extends Command
 
         /** @var OrderInterface $order */
         foreach ($orders as $order) {
-            $isPaid = ('paid' === $order->getPaymentState()) ? true : false;
-            $payment = $order->getLastPayment();
-            $paymentTime = (null === $payment) ? null : $payment->getUpdatedAt();
-            $paymentTimestamp = (null === $paymentTime) ? 0 : $paymentTime->getTimestamp();
-            if ($isPaid && ($paymentTimestamp > $order->getBaselinkerUpdateTime())) {
+            $paymentTimestamp = $order->getLastPayment()?->getUpdatedAt()?->getTimestamp() ?? 0;
+            if ($paymentTimestamp > $order->getBaselinkerUpdateTime()) {
                 $exception = null;
 
                 try {

@@ -3,3 +3,6 @@ services:
     class: SyliusBaselinkerPlugin\Repository\OrderRepository
     arguments:
       - "@sylius.repository.order"
+      - "%sylius.baselinker_days_to_sync%"
+      - "%sylius.baselinker_max_orders_add%"
+      - "%sylius.baselinker_max_orders_payments%"
