@@ -4,6 +4,7 @@ services:
     arguments:
       - "@sm.factory"
       - "@baselinker.resolver.status"
+      - "%sylius.baselinker_on_delete%"
 
   baselinker.service.api_request:
     class: SyliusBaselinkerPlugin\Service\ApiRequestService

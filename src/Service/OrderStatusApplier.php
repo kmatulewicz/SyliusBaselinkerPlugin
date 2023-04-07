@@ -17,12 +17,16 @@ class OrderStatusApplier implements OrderStatusApplierInterface
 
     private StatusResolverInterface $statusResolver;
 
+    private bool $cancel_on_delete = false;
+
     public function __construct(
         FactoryInterface $smFactory,
         StatusResolverInterface $statusResolver,
+        string $onDelete = '',
     ) {
         $this->smFactory = $smFactory;
         $this->statusResolver = $statusResolver;
+        $this->cancel_on_delete = ('cancel' === $onDelete) ? true : false;
     }
 
     public function apply(OrderInterface $order, int $type, int $data): bool
@@ -77,10 +81,9 @@ class OrderStatusApplier implements OrderStatusApplierInterface
         return $result;
     }
 
-    /** @todo: settings for mode */
-    protected function applyOrderDeleted(OrderInterface $order, bool $cancel = false): bool
+    protected function applyOrderDeleted(OrderInterface $order): bool
     {
-        if (false == $cancel) {
+        if (false == $this->cancel_on_delete) {
             $order->setBaselinkerId(-1);
 
             return true;

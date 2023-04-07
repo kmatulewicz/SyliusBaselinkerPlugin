@@ -2,3 +2,8 @@ sylius_baselinker:
     token: "%env(string:BL_TOKEN)%"
     url: https://api.baselinker.com/connector.php
     method: POST
+
+    # How to treat deletion of order in Baselinker
+    # unsync - permanently disable synchronization
+    # cancel - try to cancel
+    on_delete: unsync

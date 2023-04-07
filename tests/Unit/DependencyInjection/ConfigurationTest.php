@@ -19,6 +19,7 @@ final class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals([], ['token' => '%env(string:BL_TOKEN)%'], 'token');
         $this->assertProcessedConfigurationEquals([], ['url' => 'https://api.baselinker.com/connector.php'], 'url');
         $this->assertProcessedConfigurationEquals([], ['method' => 'POST'], 'method');
+        $this->assertProcessedConfigurationEquals([], ['on_delete' => 'unsync'], 'on_delete');
     }
 
     /** @test */
@@ -27,6 +28,7 @@ final class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals([['token' => 'other_token']], ['token' => 'other_token'], 'token');
         $this->assertProcessedConfigurationEquals([['url' => 'https://other_url.php']], ['url' => 'https://other_url.php'], 'url');
         $this->assertProcessedConfigurationEquals([['method' => 'PUT']], ['method' => 'PUT'], 'method');
+        $this->assertProcessedConfigurationEquals([['on_delete' => 'cancel']], ['on_delete' => 'cancel'], 'on_delete');
     }
 
     /** @test */
@@ -35,6 +37,7 @@ final class ConfigurationTest extends TestCase
         $this->assertConfigurationIsInvalid([['token' => '']]);
         $this->assertConfigurationIsInvalid([['url' => '']]);
         $this->assertConfigurationIsInvalid([['method' => '']]);
+        $this->assertConfigurationIsInvalid([['on_delete' => '']]);
     }
 
     protected function getConfiguration(): ConfigurationInterface

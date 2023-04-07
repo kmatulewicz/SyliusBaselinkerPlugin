@@ -22,21 +22,26 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('sylius_baselinker');
         $rootNode = $treeBuilder->getRootNode();
 
-        $rootNode->
-        children()->
-            scalarNode('token')->
-                defaultValue('%env(string:BL_TOKEN)%')->
-                cannotBeEmpty()->info('Baselinker API token (Baselinker -> Settings -> API)')->
-            end()->
-            scalarNode('url')->
-                defaultValue('https://api.baselinker.com/connector.php')->
-                cannotBeEmpty()->
-            end()->
-            scalarNode('method')->
-                defaultValue('POST')->
-                cannotBeEmpty()->
-            end()->
-        end();
+        $rootNode
+            ->children()
+                ->scalarNode('token')
+                    ->defaultValue('%env(string:BL_TOKEN)%')
+                    ->cannotBeEmpty()->info('Baselinker API token (Baselinker -> Settings -> API)')
+                ->end()
+                ->scalarNode('url')
+                    ->defaultValue('https://api.baselinker.com/connector.php')
+                    ->cannotBeEmpty()
+                ->end()
+                ->scalarNode('method')
+                    ->defaultValue('POST')
+                    ->cannotBeEmpty()
+                ->end()
+                ->enumNode('on_delete')
+                    ->values(['unsync', 'cancel'])
+                    ->defaultValue('unsync')
+                ->end()
+            ->end()
+        ;
 
         $this->addResourcesSection($rootNode);
 

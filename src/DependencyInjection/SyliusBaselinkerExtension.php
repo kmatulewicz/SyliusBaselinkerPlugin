@@ -31,10 +31,12 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
         $token = (string) $config['token'];
         $url = (string) $config['url'];
         $method = (string) $config['method'];
+        $on_delete = (string) $config['on_delete'];
 
         $container->setParameter('sylius.baselinker_token', $token);
         $container->setParameter('sylius.baselinker_url', $url);
         $container->setParameter('sylius.baselinker_method', $method);
+        $container->setParameter('sylius.baselinker_on_delete', $on_delete);
 
         $this->processConfiguration($configuration, $configs);
     }
