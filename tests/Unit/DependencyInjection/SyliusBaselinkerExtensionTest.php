@@ -19,6 +19,10 @@ final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('sylius.baselinker_token', '%env(string:BL_TOKEN)%');
         $this->assertContainerBuilderHasParameter('sylius.baselinker_url', 'https://api.baselinker.com/connector.php');
         $this->assertContainerBuilderHasParameter('sylius.baselinker_method', 'POST');
+        $this->assertContainerBuilderHasParameter('sylius.baselinker_on_delete', 'unsync');
+        $this->assertContainerBuilderHasParameter('sylius.baselinker_days_to_sync', 14);
+        $this->assertContainerBuilderHasParameter('sylius.baselinker_max_orders_add', 40);
+        $this->assertContainerBuilderHasParameter('sylius.baselinker_max_orders_payments', 40);
     }
 
     /** @test */
