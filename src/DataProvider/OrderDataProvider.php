@@ -66,7 +66,7 @@ class OrderDataProvider implements OrderDataProviderInterface
         if (null === $this->order) {
             return time();
         }
-        $date = $this->order->getCreatedAt();
+        $date = $this->order->getCheckoutCompletedAt();
 
         return (null === $date) ? time() : $date->getTimestamp();
     }
@@ -148,8 +148,7 @@ class OrderDataProvider implements OrderDataProviderInterface
 
     public function user_login(): string
     {
-        /** @todo Business logic for user_login() */
-        return '';
+        return $this->order?->getCustomer()?->getFullName() ?? '';
     }
 
     public function delivery_method(): string
@@ -163,12 +162,7 @@ class OrderDataProvider implements OrderDataProviderInterface
             return '';
         }
 
-        $method = $shipment->getMethod();
-        if (null === $method) {
-            return '';
-        }
-
-        return $method->getName() ?? '';
+        return $shipment->getMethod()?->getName() ?? '';
     }
 
     public function delivery_price(): float
