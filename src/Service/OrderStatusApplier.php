@@ -28,6 +28,8 @@ class OrderStatusApplier implements OrderStatusApplierInterface
     public function apply(OrderInterface $order, int $type, int $data): bool
     {
         switch ($type) {
+            case 4:
+                return $this->applyOrderDeleted($order);
             case 18:
                 return $this->applyOrderStatusChange($order, $data);
         }
@@ -41,36 +43,49 @@ class OrderStatusApplier implements OrderStatusApplierInterface
 
         switch ($newStatus) {
             case 'cancelled':
-                $this->applyOrderCancel($order);
-
-                break;
+                return $this->applyOrderCancel($order);
             case 'fulfilled':
-                $this->applyOrderFulfill($order);
-
-                break;
+                return $this->applyOrderFulfill($order);
         }
 
         return false;
     }
 
-    protected function applyOrderCancel(OrderInterface $order): void
+    protected function applyOrderCancel(OrderInterface $order): bool
     {
         $smInterface = $this->smFactory->get($order, OrderTransitions::GRAPH);
         if ($smInterface->can(OrderTransitions::TRANSITION_CANCEL)) {
-            $smInterface->apply(OrderTransitions::TRANSITION_CANCEL);
+            return $smInterface->apply(OrderTransitions::TRANSITION_CANCEL);
         }
+
+        return false;
     }
 
-    protected function applyOrderFulfill(OrderInterface $order): void
+    protected function applyOrderFulfill(OrderInterface $order): bool
     {
+        $result = false;
         $smInterface = $this->smFactory->get($order, OrderPaymentTransitions::GRAPH);
         if ($smInterface->can(OrderPaymentTransitions::TRANSITION_PAY)) {
-            $smInterface->apply(OrderPaymentTransitions::TRANSITION_PAY);
+            $result = ($smInterface->apply(OrderPaymentTransitions::TRANSITION_PAY)) ? true : $result;
         }
 
         $smInterface = $this->smFactory->get($order, OrderShippingTransitions::GRAPH);
         if ($smInterface->can(OrderShippingTransitions::TRANSITION_SHIP)) {
-            $smInterface->apply(OrderShippingTransitions::TRANSITION_SHIP);
+            $result = ($smInterface->apply(OrderShippingTransitions::TRANSITION_SHIP)) ? true : $result;
         }
+
+        return $result;
+    }
+
+    /** @todo: settings for mode */
+    protected function applyOrderDeleted(OrderInterface $order, bool $cancel = false): bool
+    {
+        if (false == $cancel) {
+            $order->setBaselinkerId(-1);
+
+            return true;
+        }
+
+        return $this->applyOrderCancel($order);
     }
 }

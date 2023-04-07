@@ -45,7 +45,7 @@ class OrderRepository implements OrderRepositoryInterface
         $qb
             ->select('o')
             ->where('o.state != :state')
-            ->andWhere('o.baselinkerId != 0')
+            ->andWhere('o.baselinkerId > 0')
             ->andWhere('o.baselinkerUpdateTime < o.updatedAt')
             ->setParameter('state', OrderInterface::STATE_CART)
         ;

@@ -54,7 +54,6 @@ class OrdersStatusCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @todo: --quiet */
-        /** @todo: Rethink consistency: payment -> status change on Baselinker -> status change in shop */
         $this->logger->debug('Command baselinker:orders:statuses executed.');
         $output->writeln('Synchronizing statuses:');
         /** @var Settings|null $lastJournalIdSetting */
@@ -69,7 +68,7 @@ class OrdersStatusCommand extends Command
         $this->logger->debug(sprintf('Get Baselinker journal from %d.', $lastJournalId));
 
         try {
-            $journal = $this->orderApi->getJournalList($lastJournalId, [18]);
+            $journal = $this->orderApi->getJournalList($lastJournalId, [4, 18]);
         } catch (Exception $exception) {
             $message = 'Cannot get Baselinker journal: ' . $exception->getMessage();
             $this->logger->error($message);
