@@ -1,0 +1,171 @@
+sylius_fixtures:
+    suites:
+        data_provider_test:
+            listeners:
+                orm_purger:
+                    options:
+                        exclude: ~
+            fixtures:
+                locale:
+                    options:
+                        locales:
+                            - 'pl_PL'
+                currency:
+                    options:
+                        currencies:
+                            - 'PLN'
+
+                geographical:
+                    options:
+                        countries:
+                            - 'PL'
+                        zones:
+                            PL:
+                                name: 'Poland'
+                                countries:
+                                    - 'PL'
+                menu_taxon:
+                    name: taxon
+                    options:
+                        custom:
+                            category:
+                                code: 'MENU_CATEGORY'
+                                name: 'Category'
+                                translations:
+                                    pl_PL:
+                                        name: 'Kategorie'
+                channel:
+                    options:
+                        custom:
+                            sklep:
+                                name: 'Przykładowy sklep'
+                                code: 'SKLEP'
+                                locales:
+                                    - 'pl_PL'
+                                currencies:
+                                    - 'PLN'
+                                enabled: true
+                                hostname: '%env(resolve:SYLIUS_FIXTURES_HOSTNAME)%'
+                                theme_name: '%env(resolve:SYLIUS_FIXTURES_THEME_NAME)%'
+                                shop_billing_data:
+                                    company: 'Firma Krzak'
+                                    tax_id: '000-00-00-00'
+                                    country_code: 'PL'
+                                    street: 'ul. Wiejska 4/6/8'
+                                    city: 'Warszawa'
+                                    postcode: '00-902'
+                                menu_taxon: 'MENU_CATEGORY'
+                                contact_phone_number: '+48 22 694-22-31'
+                                contact_email: 'firma-krzak@domena_adsesu_email.pl'
+
+                payment_method:
+                    options:
+                        custom:
+                            pobranie:
+                                code: 'pobranie'
+                                name: 'Płatność za pobraniem'
+                                channels:
+                                    - 'SKLEP'
+                                enabled: true
+                shipping_method:
+                    options:
+                        custom:
+                            poczta:
+                                code: 'poczta'
+                                name: 'Poczta'
+                                enabled: true
+                                channels:
+                                    - 'SKLEP'
+                customer_group:
+                    options:
+                        custom:
+                            retail:
+                                code: 'retail'
+                                name: 'Retail'
+                            wholesale:
+                                code: 'wholesale'
+                                name: 'Wholesale'
+
+                shop_user:
+                    name: 'shop_user'
+                    options:
+                        custom:
+                            -   email: 'klient@example.com'
+                                first_name: 'Jan'
+                                last_name: 'Kowalski'
+                                password: 'sylius'
+
+                tax_category:
+                    options:
+                        custom:
+                            standard:
+                                code: 'standard'
+                                name: 'Standard'
+
+                tax_rate:
+                    options:
+                        custom:
+                            standard_23:
+                                code: 'standard_23'
+                                name: 'Standardowa stawka 23%'
+                                zone: 'PL'
+                                category: 'standard'
+                                amount: 0.23
+                spozywka_taxon:
+                    name: taxon
+                    options:
+                        custom:
+                            category:
+                                code: 'MENU_CATEGORY'
+                                name: 'Category'
+                                translations:
+                                    pl_PL:
+                                        name: 'Kategorie'
+                                children:
+                                    -   code: 'spozywka'
+                                        translations:
+                                            pl_PL:
+                                                name: 'Artykułu spożywcze'
+
+                rozmiar:
+                    name: product_attribute
+                    options:
+                        custom:
+                            -   name: 'Skład'
+                                code: 'sklad'
+                                type: 'text'
+
+                            -   name: 'Grubość'
+                                code: 'grubosc'
+                                type: 'integer'
+                                translatable: false
+
+                opcje:
+                    name: product_option
+                    options:
+                        custom:
+                            -   name: 'Rozmiar'
+                                code: 'rozmiar'
+                                values:
+                                    rozmiar_s: 'S'
+                                    rozmiar_m: 'M'
+                                    rozmiar_l: 'L'
+                                    rozmiar_xl: 'XL'
+                                    rozmiar_xxl: 'XXL'
+
+                pasztetowa:
+                    name: product
+                    options:
+                        custom:
+                            -   name: 'Pasztetowa'
+                                tax_category: 'standard'
+                                channels:
+                                    - 'SKLEP'
+                                main_taxon: 'spozywka'
+                                taxons:
+                                    - 'spozywka'
+                                product_attributes:
+                                    sklad: '100% polyester'
+                                    grubosc: 30
+                                product_options:
+                                    - 'rozmiar'

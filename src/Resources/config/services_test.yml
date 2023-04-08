@@ -1,3 +1,6 @@
+imports:
+    - { resource: "../../../tests/Fixtures/sylius_fixtures/*.yml" }
+
 services:
     _defaults:
         public: true
@@ -7,4 +10,3 @@ services:
 
     SyliusBaselinkerPlugin\Resolver\StatusResolver:
         autowire: true
-

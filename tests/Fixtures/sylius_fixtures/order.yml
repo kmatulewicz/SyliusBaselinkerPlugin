@@ -1,0 +1,17 @@
+sylius_fixtures:
+    suites:
+        order:
+            listeners:
+                suite_loader:
+                    options:
+                        suites:
+                            - "data_provider_test"
+            fixtures:
+                new_order:
+                    name: order
+                    options:
+                        amount: 1
+                        channel: 'SKLEP'
+                        customer: 'klient@example.com'
+                        country: 'PL'
+                        fulfilled: true
