@@ -8,10 +8,11 @@ sylius_fixtures:
                             - "data_provider_test"
             fixtures:
                 new_order:
-                    name: order
+                    name: custom_order
                     options:
                         amount: 1
                         channel: 'SKLEP'
                         customer: 'klient@example.com'
                         country: 'PL'
                         fulfilled: true
+                        items: ['pasztetowa']

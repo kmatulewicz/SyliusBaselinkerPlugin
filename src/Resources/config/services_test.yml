@@ -10,3 +10,26 @@ services:
 
     SyliusBaselinkerPlugin\Resolver\StatusResolver:
         autowire: true
+
+    Tests\SyliusBaselinkerPlugin\Fixtures\Factory\OrderExampleFactory:
+        arguments:
+            - "@sylius.factory.order"
+            - "@sylius.factory.order_item"
+            - "@sylius.order_item_quantity_modifier"
+            - "@sylius.manager.order"
+            - "@sylius.repository.channel"
+            - "@sylius.repository.customer"
+            - "@sylius.repository.product"
+            - "@sylius.repository.country"
+            - "@sylius.repository.payment_method"
+            - "@sylius.repository.shipping_method"
+            - "@sylius.factory.address"
+            - "@sm.factory"
+            - "@sylius.checker.order_shipping_method_selection_requirement"
+            - "@sylius.checker.order_payment_method_selection_requirement"
+
+    Tests\SyliusBaselinkerPlugin\Fixtures\CustomOrderFixture:
+        arguments:
+            - "@sylius.manager.order"
+            - '@Tests\SyliusBaselinkerPlugin\Fixtures\Factory\OrderExampleFactory'
+        tags: ["sylius_fixtures.fixture"]

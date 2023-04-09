@@ -147,17 +147,14 @@ sylius_fixtures:
                             -   name: 'Rozmiar'
                                 code: 'rozmiar'
                                 values:
-                                    rozmiar_s: 'S'
-                                    rozmiar_m: 'M'
-                                    rozmiar_l: 'L'
-                                    rozmiar_xl: 'XL'
                                     rozmiar_xxl: 'XXL'
 
                 pasztetowa:
                     name: product
                     options:
                         custom:
-                            -   name: 'Pasztetowa'
+                            -   code: 'pasztetowa'
+                                name: 'Pasztetowa'
                                 tax_category: 'standard'
                                 channels:
                                     - 'SKLEP'
