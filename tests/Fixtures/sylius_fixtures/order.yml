@@ -10,9 +10,28 @@ sylius_fixtures:
                 new_order:
                     name: custom_order
                     options:
-                        amount: 1
                         channel: 'SKLEP'
                         customer: 'klient@example.com'
                         country: 'PL'
                         fulfilled: true
+                        note: 'Notatka kupującege'
+                        complete_date: 'yesterday noon'
                         items: ['pasztetowa']
+                        billing_address:
+                            first_name: 'Jan'
+                            last_name: 'Kowalski'
+                            phone_number: '0700 100 100'
+                            company: 'Firma Krzak'
+                            street: 'Piękna 3/1'
+                            city: 'Sosnowiec'
+                            postcode: '00-000'
+                            country_code: 'PL'
+                        shipping_address:
+                            first_name: 'Katarzyna'
+                            last_name: 'Kowalska'
+                            phone_number: '0700 100 101'
+                            company: 'Firma Krzak 2'
+                            street: 'Piękna 3/2'
+                            city: 'Sosnowiec Dolny'
+                            postcode: '00-001'
+                            country_code: 'PL'

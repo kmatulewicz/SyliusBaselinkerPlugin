@@ -8,6 +8,9 @@ services:
     Doctrine\ORM\EntityManagerInterface:
         public: true
 
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        public: true
+
     SyliusBaselinkerPlugin\Resolver\StatusResolver:
         autowire: true
 
@@ -27,9 +30,34 @@ services:
             - "@sm.factory"
             - "@sylius.checker.order_shipping_method_selection_requirement"
             - "@sylius.checker.order_payment_method_selection_requirement"
+    
+    Tests\SyliusBaselinkerPlugin\Fixtures\Factory\ProductExampleFactory:
+        arguments:
+            - '@sylius.factory.product'
+            - '@sylius.factory.product_variant'
+            - '@sylius.factory.channel_pricing'
+            - '@sylius.generator.product_variant'
+            - '@sylius.factory.product_attribute_value'
+            - '@sylius.factory.product_image'
+            - '@sylius.factory.product_taxon'
+            - '@sylius.image_uploader'
+            - '@sylius.generator.slug'
+            - '@sylius.repository.taxon'
+            - '@sylius.repository.product_attribute'
+            - '@sylius.repository.product_option'
+            - '@sylius.repository.channel'
+            - '@sylius.repository.locale'
+            - '@sylius.repository.tax_category'
+            - '@file_locator'
 
     Tests\SyliusBaselinkerPlugin\Fixtures\CustomOrderFixture:
         arguments:
             - "@sylius.manager.order"
             - '@Tests\SyliusBaselinkerPlugin\Fixtures\Factory\OrderExampleFactory'
-        tags: ["sylius_fixtures.fixture"]
+        tags: [ "sylius_fixtures.fixture" ]
+        
+    Tests\SyliusBaselinkerPlugin\Fixtures\CustomProductFixture:
+        arguments:
+            - "@sylius.manager.product"
+            - '@Tests\SyliusBaselinkerPlugin\Fixtures\Factory\ProductExampleFactory'
+        tags: [ "sylius_fixtures.fixture" ]

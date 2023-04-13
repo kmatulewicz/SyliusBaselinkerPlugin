@@ -2,11 +2,17 @@ default:
     suites:
         orders_api:
             contexts:
-            - baselinker.test.orders.api
+                - baselinker.test.orders.api
             filters:
                 tags: orderApi
+        command_test:
+            contexts:
+                - baselinker.test.baselinker_command
+            filters:
+                tags: baselinker_command
         default:
             contexts:
-            - baselinker.test.test
+                - baselinker.test.test
             filters:
                 tags: test
+

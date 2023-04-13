@@ -4,50 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\SyliusBaselinkerPlugin\Fixtures\Factory;
 
+use DateTimeInterface;
+use InvalidArgumentException;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\OrderExampleFactory as BaseOrderExampleFactory;
-use Sylius\Bundle\CoreBundle\Fixture\OptionsResolver\LazyOption;
-use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
 use Sylius\Component\Addressing\Model\CountryInterface;
+use Sylius\Component\Core\Model\AddressInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface as BaseOrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Sylius\Component\Core\OrderCheckoutTransitions;
 use SyliusBaselinkerPlugin\Entity\OrderInterface;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFactoryInterface
 {
-
-    protected function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver
-            ->setDefault('amount', 20)
-
-            ->setDefault('channel', LazyOption::randomOne($this->channelRepository))
-            ->setAllowedTypes('channel', ['null', 'string', ChannelInterface::class])
-            ->setNormalizer('channel', LazyOption::getOneBy($this->channelRepository, 'code'))
-
-            ->setDefault('customer', LazyOption::randomOne($this->customerRepository))
-            ->setAllowedTypes('customer', ['null', 'string', CustomerInterface::class])
-            ->setNormalizer('customer', LazyOption::getOneBy($this->customerRepository, 'email'))
-
-            ->setDefault('country', LazyOption::randomOne($this->countryRepository))
-            ->setAllowedTypes('country', ['null', 'string', CountryInterface::class])
-            ->setNormalizer('country', LazyOption::findOneBy($this->countryRepository, 'code'))
-
-            ->setDefault('complete_date', fn (Options $options): \DateTimeInterface => $this->faker->dateTimeBetween('-13 days', 'now'))
-            ->setAllowedTypes('complete_date', ['null', \DateTime::class])
-
-            ->setDefault('fulfilled', false)
-            ->setAllowedTypes('fulfilled', ['bool'])
-
-            ->setDefault('items', [])
-            ->setAllowedTypes('items', ['array']);
-    }
 
     public function create(array $options = []): OrderInterface
     {
@@ -59,6 +32,9 @@ class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFact
             $options['country'],
             $options['complete_date'],
             $options['items'],
+            $options['shipping_address'],
+            $options['billing_address'],
+            $options['note'],
         );
         $this->setOrderCompletedDate($order, $options['complete_date']);
         if ($options['fulfilled']) {
@@ -72,8 +48,11 @@ class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFact
         ChannelInterface $channel,
         CustomerInterface $customer,
         CountryInterface $country,
-        \DateTimeInterface $createdAt,
+        DateTimeInterface $createdAt,
         array $items = [],
+        ?array $shippingAddress = null,
+        ?array $billingAddress = null,
+        ?string $note = null,
     ): OrderInterface {
         $countryCode = $country->getCode();
 
@@ -89,10 +68,17 @@ class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFact
 
         $this->generateItems($order, $items);
 
-        $this->address($order, $countryCode);
+        if (null !== $shippingAddress && null !== $billingAddress) {
+            $order->setShippingAddress($this->getAddress($shippingAddress));
+            $order->setBillingAddress($this->getAddress($billingAddress));
+            $this->applyCheckoutStateTransition($order, OrderCheckoutTransitions::TRANSITION_ADDRESS);
+        } else {
+            $this->address($order, $countryCode);
+        }
+
         $this->selectShipping($order, $createdAt);
         $this->selectPayment($order, $createdAt);
-        $this->completeCheckout($order);
+        $this->completeCheckout($order, $note);
 
         return $order;
     }
@@ -108,12 +94,12 @@ class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFact
 
         foreach ($items as $item) {
             if (!is_string($item)) {
-                throw new \InvalidArgumentException('Product name should be string type.');
+                throw new InvalidArgumentException('Product name should be string type.');
             }
             /** @var ProductInterface $product */
             $product = $this->productRepository->findOneByChannelAndCode($channel, $item);
             if (null === $product) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'No product found by code "%s".',
                     $item
                 ));
@@ -128,5 +114,49 @@ class OrderExampleFactory extends BaseOrderExampleFactory implements ExampleFact
 
             $order->addItem($item);
         }
+    }
+
+    protected function getAddress(array $array): AddressInterface
+    {
+        /** @var AddressInterface $address */
+        $address = $this->addressFactory->createNew();
+        $address->setFirstName($array['first_name']);
+        $address->setLastName($array['last_name']);
+        $address->setPhoneNumber($array['phone_number']);
+        $address->setCompany($array['company']);
+        $address->setStreet($array['street']);
+        $address->setCountryCode($array['country_code']);
+        $address->setCity($array['city']);
+        $address->setPostcode($array['postcode']);
+
+        return $address;
+    }
+
+    protected function completeCheckout(BaseOrderInterface $order, ?string $note = null): void
+    {
+        if (null === $note) {
+            if ($this->faker->boolean(25)) {
+                $order->setNotes($this->faker->sentence);
+            }
+        } else {
+            $order->setNotes($note);
+        }
+
+        $this->applyCheckoutStateTransition($order, OrderCheckoutTransitions::TRANSITION_COMPLETE);
+    }
+
+    protected function configureOptions(OptionsResolver $resolver): void
+    {
+        parent::configureOptions($resolver);
+
+        $resolver
+            ->setDefault('note', null)
+            ->setAllowedTypes('note', ['null', 'string'])
+            ->setDefault('items', [])
+            ->setAllowedTypes('items', ['array'])
+            ->setDefault('shipping_address', null)
+            ->setAllowedTypes('shipping_address', ['null', 'array'])
+            ->setDefault('billing_address', null)
+            ->setAllowedTypes('billing_address', ['null', 'array']);
     }
 }

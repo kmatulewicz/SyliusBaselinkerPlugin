@@ -74,6 +74,12 @@ sylius_fixtures:
                                 code: 'poczta'
                                 name: 'Poczta'
                                 enabled: true
+                                tax_category: 'standard'
+                                calculator:
+                                    type: 'flat_rate'
+                                    configuration:
+                                        SKLEP:
+                                            amount: 999
                                 channels:
                                     - 'SKLEP'
                 customer_group:
@@ -94,6 +100,7 @@ sylius_fixtures:
                                 first_name: 'Jan'
                                 last_name: 'Kowalski'
                                 password: 'sylius'
+                                phone_number: '0700 100 100'
 
                 tax_category:
                     options:
@@ -150,12 +157,13 @@ sylius_fixtures:
                                     rozmiar_xxl: 'XXL'
 
                 pasztetowa:
-                    name: product
+                    name: custom_product
                     options:
                         custom:
                             -   code: 'pasztetowa'
                                 name: 'Pasztetowa'
                                 tax_category: 'standard'
+                                price: 10000
                                 channels:
                                     - 'SKLEP'
                                 main_taxon: 'spozywka'

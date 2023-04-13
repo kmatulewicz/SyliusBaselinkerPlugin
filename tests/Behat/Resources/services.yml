@@ -1,13 +1,17 @@
 imports:
-  - { resource: "@SyliusBaselinkerPlugin/Resources/config/services.yml" }
+    - { resource: "@SyliusBaselinkerPlugin/Resources/config/services.yml" }
 
 services:
-  baselinker.test.test:
-    class: Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
-    public: true
-
-  baselinker.test.orders.api:
-    class: Tests\SyliusBaselinkerPlugin\Behat\Context\OrdersApiContext
-    public: true
-    arguments:
-      - '@baselinker.serializer.order'
+    baselinker.test.test:
+        class: Tests\SyliusBaselinkerPlugin\Behat\Context\TestContext
+        public: true
+    
+    baselinker.test.orders.api:
+        class: Tests\SyliusBaselinkerPlugin\Behat\Context\OrdersApiContext
+        public: true
+        arguments:
+            - '@baselinker.serializer.order'
+    
+    baselinker.test.baselinker_command:
+        class: Tests\SyliusBaselinkerPlugin\Behat\Context\OrdersAddContext
+        public: true
