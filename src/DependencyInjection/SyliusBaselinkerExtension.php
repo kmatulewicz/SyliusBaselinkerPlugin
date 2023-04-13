@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SyliusBaselinkerPlugin\DependencyInjection;
 
+use Exception;
 use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,6 +19,8 @@ final class SyliusBaselinkerExtension extends AbstractResourceExtension implemen
 
     /**
      * @psalm-suppress UnusedVariable
+     *
+     * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

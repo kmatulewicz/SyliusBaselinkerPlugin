@@ -13,7 +13,10 @@ final class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_sets_default_values(): void
     {
         $this->assertProcessedConfigurationEquals([], ['token' => '%env(string:BL_TOKEN)%'], 'token');
@@ -25,7 +28,10 @@ final class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals([], ['max_orders_payments' => 40], 'max_orders_payments');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_allows_to_set_other_values(): void
     {
         $this->assertProcessedConfigurationEquals([['token' => 'other_token']], ['token' => 'other_token'], 'token');
@@ -37,7 +43,10 @@ final class ConfigurationTest extends TestCase
         $this->assertProcessedConfigurationEquals([['max_orders_payments' => 20]], ['max_orders_payments' => 20], 'max_orders_payments');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_does_not_allow_to_set_empty_values(): void
     {
         $this->assertConfigurationIsInvalid([['token' => '']]);
@@ -49,7 +58,10 @@ final class ConfigurationTest extends TestCase
         $this->assertConfigurationIsInvalid([['max_orders_payments' => '']]);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_does_not_allow_to_set_out_of_range_values(): void
     {
         $this->assertConfigurationIsInvalid([['on_delete' => 'test']]);

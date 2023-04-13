@@ -11,7 +11,11 @@ use SyliusLabs\DoctrineMigrationsExtraBundle\DependencyInjection\SyliusLabsDoctr
 
 final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
 {
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\SyliusBaselinkerExtension
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function after_load_correct_parameters_are_set(): void
     {
         $this->load();
@@ -25,7 +29,11 @@ final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('sylius.baselinker_max_orders_payments', 40);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\SyliusBaselinkerExtension
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_autoconfigures_prepending_doctrine_migration_with_proper_migrations_paths(): void
     {
         $this->configureContainer();
@@ -59,7 +67,19 @@ final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
         );
     }
 
-    /** @test */
+    private function configureContainer(): void
+    {
+        $this->container->setParameter('kernel.environment', 'test');
+        $this->container->setParameter('kernel.debug', true);
+        $this->container->setParameter('kernel.bundles', []);
+        $this->container->setParameter('kernel.bundles_metadata', ['SyliusBaselinkerPlugin' => ['path' => __DIR__ . '../../']]);
+    }
+
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\SyliusBaselinkerExtension
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
     public function it_does_not_autoconfigure_prepending_doctrine_migrations_if_it_is_disabled(): void
     {
         $this->configureContainer();
@@ -75,16 +95,32 @@ final class SyliusBaselinkerExtensionTest extends AbstractExtensionTestCase
         self::assertEmpty($syliusLabsDoctrineMigrationsExtraExtensionConfig);
     }
 
+
+    /**
+     * @test
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\SyliusBaselinkerExtension
+     * @covers \SyliusBaselinkerPlugin\DependencyInjection\Configuration
+     */
+    public function it_prepends_configuration_with_doctrine_mapping(): void
+    {
+        $this->container->setParameter('kernel.bundles_metadata', ['SyliusBaselinkerPlugin' => ['path' => __DIR__ . '../..']]);
+        $this->container->prependExtensionConfig('doctrine', ['dbal' => [], 'orm' => []]);
+
+        $this->load();
+
+        $doctrineConfig = $this->container->getExtensionConfig('doctrine')[0];
+
+        $this->assertSame($doctrineConfig['orm']['mappings']['SyliusBaselinkerPlugin'], [
+            'type' => 'attribute',
+            'dir' => __DIR__ . '../../Entity',
+            'is_bundle' => false,
+            'prefix' => 'SyliusBaselinkerPlugin\Entity',
+            'alias' => 'SyliusBaselinkerPlugin',
+        ]);
+    }
+
     protected function getContainerExtensions(): array
     {
         return [new SyliusBaselinkerExtension()];
-    }
-
-    private function configureContainer(): void
-    {
-        $this->container->setParameter('kernel.environment', 'test');
-        $this->container->setParameter('kernel.debug', true);
-        $this->container->setParameter('kernel.bundles', []);
-        $this->container->setParameter('kernel.bundles_metadata', ['SyliusBaselinkerPlugin' => ['path' => __DIR__ . '../../']]);
     }
 }

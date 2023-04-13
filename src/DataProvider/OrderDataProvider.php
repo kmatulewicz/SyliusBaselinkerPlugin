@@ -110,7 +110,7 @@ class OrderDataProvider implements OrderDataProviderInterface
             return false;
         }
 
-        return ('paid' === $this->order->getPaymentState()) ? true : false;
+        return 'paid' === $this->order->getPaymentState();
     }
 
     public function user_comments(): string
