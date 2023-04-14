@@ -34,23 +34,25 @@ class OrderDataProvider implements OrderDataProviderInterface
         $this->invoiceAddress = null;
     }
 
-    public function setOrder(OrderInterface $order): void
+    public function admin_comments(): string
     {
-        $this->order = $order;
-        $this->customer = $order->getCustomer();
-        $this->deliveryAddress = $order->getShippingAddress();
-        $this->invoiceAddress = $order->getBillingAddress();
+        /** @todo Business logic for admin_comments() */
+        return '';
     }
 
-    public function order_status_id(): int
+    public function currency(): string
     {
         if (null === $this->order) {
-            return 0;
+            return '';
         }
-        /** @var StatusesAssociations|null $statusAssociation */
-        $statusAssociation = $this->entityManager->find(StatusesAssociations::class, $this->order->getState());
 
-        return (null === $statusAssociation) ? 0 : (int) $statusAssociation->getBaselinkerStatus();
+        return $this->order->getCurrencyCode() ?? '';
+    }
+
+    public function custom_extra_fields(): array
+    {
+        /** @todo Business logic for custom_extra_fields() */
+        return [];
     }
 
     public function custom_source_id(): int
@@ -71,13 +73,230 @@ class OrderDataProvider implements OrderDataProviderInterface
         return (null === $date) ? time() : $date->getTimestamp();
     }
 
-    public function currency(): string
+    public function delivery_address(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getStreet() ?? '';
+    }
+
+    public function delivery_city(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getCity() ?? '';
+    }
+
+    public function delivery_company(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getCompany() ?? '';
+    }
+
+    public function delivery_country_code(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getCountryCode() ?? '';
+    }
+
+    public function delivery_fullname(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getFullName() ?? '';
+    }
+
+    public function delivery_method(): string
     {
         if (null === $this->order) {
             return '';
         }
+        /** @var ShipmentInterface|false $shipment */
+        $shipment = $this->order->getShipments()->last();
+        if (false == $shipment) {
+            return '';
+        }
 
-        return $this->order->getCurrencyCode() ?? '';
+        return $shipment->getMethod()?->getName() ?? '';
+    }
+
+    public function delivery_point_address(): string
+    {
+        /** @todo Business logic for delivery_point_address() */
+        return '';
+    }
+
+    public function delivery_point_city(): string
+    {
+        /** @todo Business logic for delivery_point_city() */
+        return '';
+    }
+
+    public function delivery_point_id(): string
+    {
+        /** @todo Business logic for delivery_point_id() */
+        return '';
+    }
+
+    public function delivery_point_name(): string
+    {
+        /** @todo Business logic for delivery_point_name() */
+        return '';
+    }
+
+    public function delivery_point_postcode(): string
+    {
+        /** @todo Business logic for delivery_point_postcode() */
+        return '';
+    }
+
+    public function delivery_postcode(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getPostcode() ?? '';
+    }
+
+    public function delivery_price(): float
+    {
+        if (null === $this->order) {
+            return 0.0;
+        }
+
+        return $this->order->getShippingTotal() / 100;
+    }
+
+    public function delivery_state(): string
+    {
+        if (null === $this->deliveryAddress) {
+            return '';
+        }
+
+        return $this->deliveryAddress->getProvinceName() ?? '';
+    }
+
+    public function email(): string
+    {
+        if (null === $this->customer) {
+            return '';
+        }
+
+        return $this->customer->getEmail() ?? '';
+    }
+
+    public function extra_field_1(): string
+    {
+        /** @todo Business logic for extra_field_1() */
+        return '';
+    }
+
+    public function extra_field_2(): string
+    {
+        /** @todo Business logic for extra_field_2() */
+        return '';
+    }
+
+    public function invoice_address(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getStreet() ?? '';
+    }
+
+    public function invoice_city(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getCity() ?? '';
+    }
+
+    public function invoice_company(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getCompany() ?? '';
+    }
+
+    public function invoice_country_code(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getCountryCode() ?? '';
+    }
+
+    public function invoice_fullname(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getFullName() ?? '';
+    }
+
+    public function invoice_nip(): string
+    {
+        /** @todo Business logic for invoice_nip() */
+        return '';
+    }
+
+    public function invoice_postcode(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getPostcode() ?? '';
+    }
+
+    public function invoice_state(): string
+    {
+        if (null === $this->invoiceAddress) {
+            return '';
+        }
+
+        return $this->invoiceAddress->getProvinceName() ?? '';
+    }
+
+    public function order_status_id(): int
+    {
+        if (null === $this->order) {
+            return 0;
+        }
+        /** @var StatusesAssociations|null $statusAssociation */
+        $statusAssociation = $this->entityManager->find(StatusesAssociations::class, $this->order->getState());
+
+        return (null === $statusAssociation) ? 0 : (int) $statusAssociation->getBaselinkerStatus();
+    }
+
+    public function paid(): bool
+    {
+        if (null === $this->order) {
+            return false;
+        }
+
+        return 'paid' === $this->order->getPaymentState();
     }
 
     public function payment_method(): string
@@ -104,13 +323,26 @@ class OrderDataProvider implements OrderDataProviderInterface
         return false;
     }
 
-    public function paid(): bool
+    public function phone(): string
     {
-        if (null === $this->order) {
-            return false;
+        if (null === $this->customer) {
+            return '';
         }
 
-        return 'paid' === $this->order->getPaymentState();
+        return $this->customer->getPhoneNumber() ?? '';
+    }
+
+    public function products(): array
+    {
+        return [];
+    }
+
+    public function setOrder(OrderInterface $order): void
+    {
+        $this->order = $order;
+        $this->customer = $order->getCustomer();
+        $this->deliveryAddress = $order->getShippingAddress();
+        $this->invoiceAddress = $order->getBillingAddress();
     }
 
     public function user_comments(): string
@@ -122,246 +354,14 @@ class OrderDataProvider implements OrderDataProviderInterface
         return $this->order->getNotes() ?? '';
     }
 
-    public function admin_comments(): string
-    {
-        /** @todo Business logic for admin_comments() */
-        return '';
-    }
-
-    public function email(): string
-    {
-        if (null === $this->customer) {
-            return '';
-        }
-
-        return $this->customer->getEmail() ?? '';
-    }
-
-    public function phone(): string
-    {
-        if (null === $this->customer) {
-            return '';
-        }
-
-        return $this->customer->getPhoneNumber() ?? '';
-    }
-
     public function user_login(): string
     {
-        return $this->order?->getCustomer()?->getFullName() ?? '';
-    }
-
-    public function delivery_method(): string
-    {
-        if (null === $this->order) {
-            return '';
-        }
-        /** @var ShipmentInterface|false $shipment */
-        $shipment = $this->order->getShipments()->last();
-        if (false == $shipment) {
-            return '';
-        }
-
-        return $shipment->getMethod()?->getName() ?? '';
-    }
-
-    public function delivery_price(): float
-    {
-        if (null === $this->order) {
-            return 0.0;
-        }
-
-        return $this->order->getShippingTotal() / 100;
-    }
-
-    public function delivery_fullname(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getFullName() ?? '';
-    }
-
-    public function delivery_company(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getCompany() ?? '';
-    }
-
-    public function delivery_address(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getStreet() ?? '';
-    }
-
-    public function delivery_postcode(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getPostcode() ?? '';
-    }
-
-    public function delivery_city(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getCity() ?? '';
-    }
-
-    public function delivery_state(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getProvinceName() ?? '';
-    }
-
-    public function delivery_country_code(): string
-    {
-        if (null === $this->deliveryAddress) {
-            return '';
-        }
-
-        return $this->deliveryAddress->getCountryCode() ?? '';
-    }
-
-    public function delivery_point_id(): string
-    {
-        /** @todo Business logic for delivery_point_id() */
-        return '';
-    }
-
-    public function delivery_point_name(): string
-    {
-        /** @todo Business logic for delivery_point_name() */
-        return '';
-    }
-
-    public function delivery_point_address(): string
-    {
-        /** @todo Business logic for delivery_point_address() */
-        return '';
-    }
-
-    public function delivery_point_postcode(): string
-    {
-        /** @todo Business logic for delivery_point_postcode() */
-        return '';
-    }
-
-    public function delivery_point_city(): string
-    {
-        /** @todo Business logic for delivery_point_city() */
-        return '';
-    }
-
-    public function invoice_fullname(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getFullName() ?? '';
-    }
-
-    public function invoice_company(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getCompany() ?? '';
-    }
-
-    public function invoice_nip(): string
-    {
-        /** @todo Business logic for invoice_nip() */
-        return '';
-    }
-
-    public function invoice_address(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getStreet() ?? '';
-    }
-
-    public function invoice_postcode(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getPostcode() ?? '';
-    }
-
-    public function invoice_city(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getCity() ?? '';
-    }
-
-    public function invoice_state(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getProvinceName() ?? '';
-    }
-
-    public function invoice_country_code(): string
-    {
-        if (null === $this->invoiceAddress) {
-            return '';
-        }
-
-        return $this->invoiceAddress->getCountryCode() ?? '';
+        return $this->customer?->getFullName() ?? '';
     }
 
     public function want_invoice(): bool
     {
         /** @todo Business logic for want_invoice() */
         return false;
-    }
-
-    public function extra_field_1(): string
-    {
-        /** @todo Business logic for extra_field_1() */
-        return '';
-    }
-
-    public function extra_field_2(): string
-    {
-        /** @todo Business logic for extra_field_2() */
-        return '';
-    }
-
-    public function custom_extra_fields(): array
-    {
-        /** @todo Business logic for custom_extra_fields() */
-        return [];
-    }
-
-    public function products(): array
-    {
-        return [];
     }
 }
