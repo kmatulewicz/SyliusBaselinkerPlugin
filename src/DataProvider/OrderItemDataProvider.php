@@ -27,50 +27,13 @@ class OrderItemDataProvider implements OrderItemDataProviderInterface
         $this->product = null;
     }
 
-    public function setItem(OrderItemInterface $orderItem): void
+    public function attributes(): string
     {
-        $this->orderItem = $orderItem;
-        $this->variant = $orderItem->getVariant();
-        $this->product = $orderItem->getProduct();
-    }
-
-    public function storage(): string
-    {
-        return 'db';
-    }
-
-    public function storage_id(): int
-    {
-        /** @todo: Baselinker storage associations in next version */
-        return 0;
-    }
-
-    public function product_id(): string
-    {
-        if (null == $this->variant) {
+        if (null === $this->orderItem) {
             return '';
         }
 
-        return $this->variant->getCode() ?? '';
-    }
-
-    public function variant_id(): int
-    {
-        return 0;
-    }
-
-    public function name(): string
-    {
-        if (null == $this->product) {
-            return '';
-        }
-
-        return $this->product->getName() ?? '';
-    }
-
-    public function sku(): string
-    {
-        return $this->product_id();
+        return $this->orderItem->getVariantName() ?? '';
     }
 
     public function ean(): string
@@ -85,19 +48,13 @@ class OrderItemDataProvider implements OrderItemDataProviderInterface
         return '';
     }
 
-    public function warehouse_id(): int
+    public function name(): string
     {
-        /** @todo Business logic for warehouse_id() */
-        return 0;
-    }
-
-    public function attributes(): string
-    {
-        if (null === $this->orderItem) {
+        if (null == $this->product) {
             return '';
         }
 
-        return $this->orderItem->getVariantName() ?? '';
+        return $this->product->getName() ?? '';
     }
 
     public function price_brutto(): float
@@ -107,6 +64,47 @@ class OrderItemDataProvider implements OrderItemDataProviderInterface
         }
 
         return $this->orderItem->getDiscountedUnitPrice() / 100;
+    }
+
+    public function product_id(): string
+    {
+        if (null == $this->variant) {
+            return '';
+        }
+
+        return $this->variant->getCode() ?? '';
+    }
+
+    public function quantity(): int
+    {
+        if (null === $this->orderItem) {
+            return 0;
+        }
+
+        return $this->orderItem->getQuantity();
+    }
+
+    public function setItem(OrderItemInterface $orderItem): void
+    {
+        $this->orderItem = $orderItem;
+        $this->variant = $orderItem->getVariant();
+        $this->product = $orderItem->getProduct();
+    }
+
+    public function sku(): string
+    {
+        return $this->product_id();
+    }
+
+    public function storage(): string
+    {
+        return 'db';
+    }
+
+    public function storage_id(): int
+    {
+        /** @todo: Baselinker storage associations in next version */
+        return 0;
     }
 
     public function tax_rate(): float
@@ -122,13 +120,15 @@ class OrderItemDataProvider implements OrderItemDataProviderInterface
         return $taxRate->getAmountAsPercentage();
     }
 
-    public function quantity(): int
+    public function variant_id(): int
     {
-        if (null === $this->orderItem) {
-            return 0;
-        }
+        return 0;
+    }
 
-        return $this->orderItem->getQuantity();
+    public function warehouse_id(): int
+    {
+        /** @todo Business logic for warehouse_id() */
+        return 0;
     }
 
     public function weight(): float
