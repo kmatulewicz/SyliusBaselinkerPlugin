@@ -13,15 +13,40 @@ class PaymentDataProvider implements PaymentDataProviderInterface
 
     private ?PaymentInterface $payment = null;
 
-    public function setOrder(OrderInterface $order): void
+    public function external_payment_id(): string
     {
-        $this->order = $order;
-        $this->payment = $order->getLastPayment();
+        if (null === $this->payment) {
+            return '';
+        }
+        /** @var mixed $id */
+        $id = $this->payment->getId();
+
+        return (is_int($id)) ? (string) $id : '';
     }
 
     public function order_id(): int
     {
         return (null === $this->order) ? 0 : $this->order->getBaselinkerId();
+    }
+
+    public function payment_comment(): string
+    {
+        if (null === $this->payment) {
+            return '';
+        }
+        $method = $this->payment->getMethod();
+
+        return (null === $method) ? '' : ($method->getName() ?? '');
+    }
+
+    public function payment_date(): int
+    {
+        if (null === $this->payment) {
+            return 0;
+        }
+        $updatedAt = $this->payment->getUpdatedAt();
+
+        return (null === $updatedAt) ? 0 : $updatedAt->getTimestamp();
     }
 
     public function payment_done(): float
@@ -36,34 +61,9 @@ class PaymentDataProvider implements PaymentDataProviderInterface
         return (float) (((int) $this->payment->getAmount()) / 100);
     }
 
-    public function payment_date(): int
+    public function setOrder(OrderInterface $order): void
     {
-        if (null === $this->payment) {
-            return 0;
-        }
-        $updatedAt = $this->payment->getUpdatedAt();
-
-        return (null === $updatedAt) ? 0 : $updatedAt->getTimestamp();
-    }
-
-    public function payment_comment(): string
-    {
-        if (null === $this->payment) {
-            return '';
-        }
-        $method = $this->payment->getMethod();
-
-        return (null === $method) ? '' : ($method->getName() ?? '');
-    }
-
-    public function external_payment_id(): string
-    {
-        if (null === $this->payment) {
-            return '';
-        }
-        /** @var mixed $id */
-        $id = $this->payment->getId();
-
-        return (is_int($id)) ? (string) $id : '';
+        $this->order = $order;
+        $this->payment = $order->getLastPayment();
     }
 }
